@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2022-11-18T07:38:49.521Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36" etag="BVhN5PsQSJ_FcllCMalw" version="20.5.3" type="github" pages="2">
-  <diagram id="846f32cc-e7a7-a987-f8ec-650622d98a86" name="User mockups">
-    <mxGraphModel dx="702" dy="661" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
+<mxfile host="app.diagrams.net" modified="2022-11-18T08:02:53.708Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36" etag="USB8ffXRY3cUc22wPYM5" version="20.5.3" type="github" pages="2">
+  <diagram id="846f32cc-e7a7-a987-f8ec-650622d98a86" name="Main Page">
+    <mxGraphModel dx="702" dy="604" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -28,29 +28,32 @@
         <mxCell id="_PvMz2LKk4gfPlcKEtni-45" value="" style="ellipse;whiteSpace=wrap;html=1;strokeColor=#66B2FF;fillColor=#3399FF;" parent="1" vertex="1">
           <mxGeometry x="172.27999999999997" y="360" width="20" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="ctwO24kw2oFns3aksyB7-3" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#000000;shadow=0;dashed=0;shape=mxgraph.ios7.icons.location_2;" vertex="1" parent="1">
-          <mxGeometry x="271.14" y="490" width="30" height="30" as="geometry" />
+        <mxCell id="ctwO24kw2oFns3aksyB7-3" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#000000;shadow=0;dashed=0;shape=mxgraph.ios7.icons.location_2;" parent="1" vertex="1">
+          <mxGeometry x="271.14" y="450" width="30" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="ctwO24kw2oFns3aksyB7-4" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#000000;shadow=0;dashed=0;shape=mxgraph.ios7.icons.looking_glass;fillColor=#FFFFFF;" vertex="1" parent="1">
+        <mxCell id="ctwO24kw2oFns3aksyB7-4" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#000000;shadow=0;dashed=0;shape=mxgraph.ios7.icons.looking_glass;fillColor=#FFFFFF;" parent="1" vertex="1">
           <mxGeometry x="221.14" y="532.25" width="30" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="ctwO24kw2oFns3aksyB7-6" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#000000;shadow=0;dashed=0;shape=mxgraph.ios7.icons.map;" vertex="1" parent="1">
+        <mxCell id="ctwO24kw2oFns3aksyB7-6" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#000000;shadow=0;dashed=0;shape=mxgraph.ios7.icons.map;" parent="1" vertex="1">
           <mxGeometry x="166.14" y="530" width="30" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="ctwO24kw2oFns3aksyB7-8" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#000000;shadow=0;dashed=0;shape=mxgraph.ios7.icons.map;" vertex="1" parent="1">
-          <mxGeometry x="167.27999999999997" y="30" width="30" height="30" as="geometry" />
+        <mxCell id="ctwO24kw2oFns3aksyB7-8" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#000000;shadow=0;dashed=0;shape=mxgraph.ios7.icons.map;" parent="1" vertex="1">
+          <mxGeometry x="167.27999999999997" y="40" width="30" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="ctwO24kw2oFns3aksyB7-10" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#000000;shadow=0;dashed=0;shape=mxgraph.ios7.icons.info;" vertex="1" parent="1">
+        <mxCell id="ctwO24kw2oFns3aksyB7-10" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#000000;shadow=0;dashed=0;shape=mxgraph.ios7.icons.info;" parent="1" vertex="1">
           <mxGeometry x="60" y="532.25" width="30" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="ctwO24kw2oFns3aksyB7-11" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#000000;shadow=0;dashed=0;shape=mxgraph.ios7.icons.location;" vertex="1" parent="1">
+        <mxCell id="ctwO24kw2oFns3aksyB7-11" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#000000;shadow=0;dashed=0;shape=mxgraph.ios7.icons.location;" parent="1" vertex="1">
           <mxGeometry x="120" y="530" width="24" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="xqu-o6NVyvLLLID6irlS-1" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#000000;shadow=0;dashed=0;shape=mxgraph.ios7.icons.preferences;pointerEvents=1" vertex="1" parent="1">
+          <mxGeometry x="271.14" y="490" width="30" height="24" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="b317513f-3a18-7c5e-11f3-49e492f8f808" name="Coach mockups">
-    <mxGraphModel shadow="0" fold="1" math="0" pageScale="1" background="#ffffff" pageWidth="850" pageHeight="1100">
+  <diagram id="b317513f-3a18-7c5e-11f3-49e492f8f808" name="Search Page">
+    <mxGraphModel dx="1003" dy="863" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
