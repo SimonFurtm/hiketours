@@ -86,8 +86,6 @@ export default function Map() {
   const [errorMsg, setErrorMsg] = useState(null);
   const [lastLocation, setLastLocation] = useState(null);
 
-
-
   useEffect(() => {
       setCount(count + 1);
       console.log(count);
@@ -184,8 +182,6 @@ export default function Map() {
         pinColor="red"
         draggable={true}
         //icon={{uri: "https://i.kym-cdn.com/photos/images/masonry/002/018/144/1f8.png"}}
-        //icon={{uri: "https://static.vecteezy.com/system/resources/thumbnails/010/135/620/small/glossy-spheres-isolated-png.png"}} 
-        //icon={require('../assets/images/favicon.png')} 
 
         onDragStart={(e) => {
           console.log("Drag start", e.nativeEvent.coordinate);
