@@ -102,24 +102,39 @@ export default function Map() {
 
 
   return (
+<View>
+     {/*Popup window when clicking on GeoJson path using a Modal*/}
+     <Modal
+     animationType="slide"
+     
+     transparent={false}
+     visible={modalVisible}
+     onRequestClose={() => {
+       Alert.alert("Modal has been closed.");
+     }}
+   >
+     <View style={styles.centeredView}>
+       <View style={styles.modalView}>
+         <Text style={styles.modalText}>Hello World!</Text>
+
+         <Pressable
+           style={[styles.button, styles.buttonClose]}
+           onPress={() => setModalVisible(false)}
+         >
+           <Text style={styles.textStyle}>Hide Modal</Text>
+         </Pressable>
+       </View>
+   </View>
+   </Modal>
+   {/*End of Modal*/}
 
     <MapView style={styles.map}
       showsUserLocation={true}
-      //minZoomLevel={10}
-
-      showsCompass={true}
       ref={mapRef}
       mapType="hybrid"
       region={Bischofshofen}
       provider="google"
       onLongPress={moveToLocation}
-
-      showsMyLocationButton={true}
-      mapPadding={100}
-
-    //cacheEnabled={true}
-    //onRegionChangeComplete={moveToLocation}
-    //onUserLocationChange={onPressTest}
     >
 
 
@@ -143,29 +158,7 @@ export default function Map() {
       />
 
       
-     {/*Popup window when clicking on GeoJson path using a Modal*/}
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
-
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
-      {/*End of Modal*/}
+    
 
       <Marker
         coordinate={pinBlue}
@@ -201,6 +194,8 @@ export default function Map() {
       >
       </Marker>
     </MapView >
+
+    </View>
 
   );
 }
