@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import MapView, { Marker, Callout, Circle, Polyline, Geojson } from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions, Button, Pressable, TouchableOpacity, Platform, Modal } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Button, Pressable, TouchableOpacity, Platform, Modal, Image } from 'react-native';
 import * as Location from 'expo-location';
 import { Popup } from 'react-native-map-link';
 
@@ -93,8 +93,8 @@ export default function Map() {
 
   //When pressing on a route
   const handleGeoJsonPress = (event) => {
-    //print the name of the route
-    console.log(event.properties);
+    //print the name of the route to the console
+    console.log(event.name);
     //set the state of the modal to true
     setModalVisible(true);
   };
@@ -102,98 +102,131 @@ export default function Map() {
 
 
   return (
-<View>
-     {/*Popup window when clicking on GeoJson path using a Modal*/}
-     <Modal
-     animationType="slide"
-     
-     transparent={false}
-     visible={modalVisible}
-     onRequestClose={() => {
-       Alert.alert("Modal has been closed.");
-     }}
-   >
-     <View style={styles.centeredView}>
-       <View style={styles.modalView}>
-         <Text style={styles.modalText}>Hello World!</Text>
+    <View>
+      {/*Popup window when clicking on GeoJson path using a Modal*/}
+      <Modal
+        animationType="slide"
 
-         <Pressable
-           style={[styles.button, styles.buttonClose]}
-           onPress={() => setModalVisible(false)}
-         >
-           <Text style={styles.textStyle}>Hide Modal</Text>
-         </Pressable>
-       </View>
-   </View>
-   </Modal>
-   {/*End of Modal*/}
-
-    <MapView style={styles.map}
-      showsUserLocation={true}
-      ref={mapRef}
-      mapType="hybrid"
-      region={Bischofshofen}
-      provider="google"
-      onLongPress={moveToLocation}
-    >
-
-
-      <Geojson
-        tappable
-        geojson={Hubertusweg}
-        //fillColor="transparent"
-        strokeColor="#27c7be"
-        strokeWidth={2}
-        onPress={handleGeoJsonPress}
-      />
-
-      <Geojson
-        tappable
-        geojson={Erzweg}
-        strokeColor="blue"
-        fillColor="green"
-        strokeWidth={2}
-        //Open a popup window and show the name of the route
-        onPress={handleGeoJsonPress}
-      />
-
-      
-    
-
-      <Marker
-        coordinate={pinBlue}
-        pinColor="blue"
-        draggable={true}
-        onDragStart={(e) => {
-          console.log("Drag start", e.nativeEvent.coordinate);
-        }}
-        onDragEnd={(e) => {
-          setPinBlue({
-            latitude: e.nativeEvent.coordinate.latitude,
-            longitude: e.nativeEvent.coordinate.longitude,
-          }
-          )
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
         }}
       >
-      </Marker>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Hello World!</Text>
 
-      <Marker
-        coordinate={pinRed}
-        pinColor="red"
-        draggable={true}
-        onDragStart={(e) => {
-          console.log("Drag start", e.nativeEvent.coordinate);
-        }}
-        onDragEnd={(e) => {
-          setPinRed({
-            latitude: e.nativeEvent.coordinate.latitude,
-            longitude: e.nativeEvent.coordinate.longitude,
-          }
-          )
-        }}
+            <TouchableOpacity
+              style={[styles.button, styles.buttonClose]}
+
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      {/*End of Modal*/}
+
+      <MapView style={styles.map}
+        showsUserLocation={true}
+        ref={mapRef}
+        mapType="hybrid"
+        region={Bischofshofen}
+        provider="google"
+      //onLongPress={moveToLocation}
+      /*showsMyLocationButton={true}
+      mapPadding={100}*/
       >
-      </Marker>
-    </MapView >
+
+
+    {/*Adds a Button that moves to your location when pressed*/}
+        <TouchableOpacity
+          style={[styles.UIButtonView]}
+          onPress={moveToLocation}
+        >
+          <Image 
+            style={styles.locationButtonImage}
+          source={require('../../assets/images/icon.png')} />
+
+        </TouchableOpacity>
+
+
+
+        {/*Create a marker*/}
+        <Marker
+          coordinate={pinRed}
+          pinColor="red"
+          draggable={true}
+          onDragStart={(e) => {
+            console.log("Drag start", e.nativeEvent.coordinate);
+          }}
+          onDragEnd={(e) => {
+            setPinRed({
+              latitude: e.nativeEvent.coordinate.latitude,
+              longitude: e.nativeEvent.coordinate.longitude,
+            });
+          }}
+        />
+
+        {/*Create a GeoJson object*/}
+
+
+        <Geojson
+          tappable
+          geojson={Hubertusweg}
+          strokeColor="#27c7be"
+          strokeWidth={2}
+          onPress={() => handleGeoJsonPress(Hubertusweg)}
+        />
+
+        <Geojson
+          tappable
+          geojson={Erzweg}
+          strokeColor="blue"
+          strokeWidth={2}
+          //Open a popup window and send the name of the route to the popup
+          onPress={() => handleGeoJsonPress(Erzweg)}
+        />
+
+
+
+
+        <Marker
+          coordinate={pinBlue}
+          pinColor="blue"
+          draggable={true}
+          onDragStart={(e) => {
+            console.log("Drag start", e.nativeEvent.coordinate);
+          }}
+          onDragEnd={(e) => {
+            setPinBlue({
+              latitude: e.nativeEvent.coordinate.latitude,
+              longitude: e.nativeEvent.coordinate.longitude,
+            }
+            )
+          }}
+        >
+        </Marker>
+
+        <Marker
+          coordinate={pinRed}
+          pinColor="red"
+          draggable={true}
+          onDragStart={(e) => {
+            console.log("Drag start", e.nativeEvent.coordinate);
+          }}
+          onDragEnd={(e) => {
+            setPinRed({
+              latitude: e.nativeEvent.coordinate.latitude,
+              longitude: e.nativeEvent.coordinate.longitude,
+            }
+            )
+          }}
+        >
+        </Marker>
+      </MapView >
 
     </View>
 
@@ -210,9 +243,8 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
-    justifyContent: 'center',
-    paddingVertical: 50,
-    paddingHorizontal: 50
+
+
   },
   overlay: {
     alignItems: 'center',
@@ -222,8 +254,8 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
-    padding: 10
+    backgroundColor: "#f194ff",
+    padding: 10,
   },
   coordText: {
     fontSize: 13,
@@ -269,6 +301,22 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  
+  UIButtonView: {
+
+    width: '10%',
+    height: '5%',
+
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: '15%',
+    right: '10%',
+    borderRadius: 20,
+  }, 
+  locationButtonImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 20,
+  }
+
 
 });
