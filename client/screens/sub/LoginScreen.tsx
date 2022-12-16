@@ -1,20 +1,17 @@
-import * as React from 'react';
-import { Button, StyleSheet } from 'react-native';
-import * as WebBrowser from 'expo-web-browser';
+import { StatusBar } from 'expo-status-bar';
+import { Button, Platform, StyleSheet } from 'react-native';
 
-import * as Google from 'expo-auth-session/providers/google';
-
+import EditScreenInfo from '../../components/organism/EditScreenInfo';
 import { Text, View } from '../../components/atoms/Themed';
-import { RootTabScreenProps } from '../../types';
-import Login from '../../components/organism/login';
 
-export default function ProfileScreen({ navigation }: RootTabScreenProps<'Profile'>) {
-
+export default function HelpScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Profil</Text>
+      <Text style={styles.title}>Login</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Login />
+      {/* Use a light status bar on iOS to account for the black space above the modal */}
+      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+  
     </View>
   );
 }

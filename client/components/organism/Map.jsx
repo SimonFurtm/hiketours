@@ -139,7 +139,7 @@ export default function Map() {
   }
 
   return (
-
+  
     <MapView style={styles.map}
       showsUserLocation={true}
       //minZoomLevel={10}
