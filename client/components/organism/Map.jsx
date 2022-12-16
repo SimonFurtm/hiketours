@@ -3,6 +3,7 @@ import MapView, { Marker, Callout, Circle, Polyline, Geojson } from 'react-nativ
 import { StyleSheet, Text, View, Dimensions, Button, Pressable, TouchableOpacity, Platform, Modal, Image } from 'react-native';
 import * as Location from 'expo-location';
 import { Popup } from 'react-native-map-link';
+import { AntDesign } from '@expo/vector-icons';
 
 export default function Map() {
 
@@ -100,7 +101,6 @@ export default function Map() {
   };
 
 
-
   return (
     <View>
       {/*Popup window when clicking on GeoJson path using a Modal*/}
@@ -129,30 +129,29 @@ export default function Map() {
       </Modal>
       {/*End of Modal*/}
 
+
+       {/*Adds a Button that moves to your location when pressed*/}
+       <TouchableOpacity
+          style={[styles.UIButtonView]}
+          onPress={moveToLocation}
+        >
+          <AntDesign
+            style={styles.locationButtonImage} 
+            name="pluscircle"
+            size={40}
+            color="white"
+
+            />
+
+      </TouchableOpacity>
+
       <MapView style={styles.map}
         showsUserLocation={true}
         ref={mapRef}
         mapType="hybrid"
         region={Bischofshofen}
         provider="google"
-      //onLongPress={moveToLocation}
-      /*showsMyLocationButton={true}
-      mapPadding={100}*/
       >
-
-
-    {/*Adds a Button that moves to your location when pressed*/}
-        <TouchableOpacity
-          style={[styles.UIButtonView]}
-          onPress={moveToLocation}
-        >
-          <Image 
-            style={styles.locationButtonImage}
-          source={require('../../assets/images/icon.png')} />
-
-        </TouchableOpacity>
-
-
 
         {/*Create a marker*/}
         <Marker
@@ -171,8 +170,6 @@ export default function Map() {
         />
 
         {/*Create a GeoJson object*/}
-
-
         <Geojson
           tappable
           geojson={Hubertusweg}
@@ -189,9 +186,6 @@ export default function Map() {
           //Open a popup window and send the name of the route to the popup
           onPress={() => handleGeoJsonPress(Erzweg)}
         />
-
-
-
 
         <Marker
           coordinate={pinBlue}
@@ -227,7 +221,6 @@ export default function Map() {
         >
         </Marker>
       </MapView >
-
     </View>
 
   );
@@ -243,8 +236,6 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
-
-
   },
   overlay: {
     alignItems: 'center',
@@ -302,20 +293,19 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   UIButtonView: {
-
-    width: '10%',
-    height: '5%',
-
-    backgroundColor: 'white',
+    width: '15%',
+    height: '10%',
     position: 'absolute',
-    bottom: '15%',
-    right: '10%',
-    borderRadius: 20,
-  }, 
+    bottom: '10%',
+    right: '5%',
+ 
+    zIndex:2,
+  },
   locationButtonImage: {
     width: '100%',
     height: '100%',
-    borderRadius: 20,
+
+    zIndex:2,
   }
 
 
