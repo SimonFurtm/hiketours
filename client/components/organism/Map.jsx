@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, Dimensions, Button, Pressable, TouchableOpacity
 import * as Location from 'expo-location';
 import { Popup } from 'react-native-map-link';
 import { AntDesign } from '@expo/vector-icons';
+import ChangeMapStyleButton from '../atoms/changeMapStyleButton';
+
 
 export default function Map() {
 
@@ -13,13 +15,17 @@ export default function Map() {
   const [pinBlue, setPinBlue] = React.useState({ latitude: 47.41545773037797, longitude: 13.218184887894393, })
   const [pinRed, setPinRed] = React.useState({ latitude: 47.41545773037797, longitude: 13.218184887894393, })
 
+  const mapRef = React.createRef()
+
+  //map style
+  const [mapStyle, setMapStyle] = React.useState("hybrid");
+
   //modal state
   const [modalVisible, setModalVisible] = useState(false);
 
   const [time, setTime] = useState(Date.now());
   const [count, setCount] = useState(0);
 
-  const mapRef = React.createRef()
 
   const Bischofshofen = {
     latitude: 47.41545773037797,
@@ -82,6 +88,7 @@ export default function Map() {
   const moveToLocation = () => {
     if (location != null) {
       console.log("moving to location");
+      changeMapStyle();
       mapRef.current.animateToRegion({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
@@ -99,6 +106,20 @@ export default function Map() {
     //set the state of the modal to true
     setModalVisible(true);
   };
+
+  var x = 1;
+  const changeMapStyle = () => {
+    //change x every second time
+    x = x % 2;
+    x++;
+    
+    console.log(x);
+    if (x == 1) {
+    setMapStyle("standard");
+    }
+    if (x == 2) {
+    setMapStyle("hybrid");
+  }}
 
 
   return (
@@ -141,33 +162,20 @@ export default function Map() {
             size={40}
             color="white"
 
-            />
+      />
 
       </TouchableOpacity>
+
+
+      <ChangeMapStyleButton />
 
       <MapView style={styles.map}
         showsUserLocation={true}
         ref={mapRef}
-        mapType="hybrid"
+        mapType={mapStyle}
         region={Bischofshofen}
         provider="google"
       >
-
-        {/*Create a marker*/}
-        <Marker
-          coordinate={pinRed}
-          pinColor="red"
-          draggable={true}
-          onDragStart={(e) => {
-            console.log("Drag start", e.nativeEvent.coordinate);
-          }}
-          onDragEnd={(e) => {
-            setPinRed({
-              latitude: e.nativeEvent.coordinate.latitude,
-              longitude: e.nativeEvent.coordinate.longitude,
-            });
-          }}
-        />
 
         {/*Create a GeoJson object*/}
         <Geojson
