@@ -20,7 +20,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "123654789"
+      "bundleIdentifier": "at.hiketours.client"
     },
     "android": {
       "package": "at.hiketours.client",
