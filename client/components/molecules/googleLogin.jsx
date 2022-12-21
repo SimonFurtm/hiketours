@@ -37,13 +37,19 @@ export default function GoogleLogin() {
   }
 
   //
-  const ShowUserInfo = () => {
+  const showUserInfo = () => {
     if(user){
       return(
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <Text style={{fontSize: 35, fontWeight: 'bold', marginBottom: 20}}>Welcome</Text>
-          <Image source={{uri: user.picture}} style={{width: 100, height: 100, borderRadius: 50}} />
-          <Text style={{fontSize: 35, fontWeight: 'bold', marginBottom: 20}}>Test {user.name} </Text>
+        <View>
+          <Image source={{uri: user.picture}} style={{width: 100, height: 100, borderRadius: 50}} />          
+          <Text style={{fontWeight: 'bold', marginBottom: 1}}>Welcome {user.name}</Text>
+          <Text style={{fontWeight: 'bold', marginBottom: 1}}>Email: {user.email} </Text>
+        </View>
+      );
+    }else {
+      return(
+        <View >
+          <Text style={{ fontWeight: 'bold', marginBottom: 2}}>Not working.</Text>
         </View>
       );
     }
@@ -51,7 +57,6 @@ export default function GoogleLogin() {
 
   return (
     <View>
-      {user && <Text>{user.name}</Text>}
       {user === null &&
         <Button 
           disabled={!request}
@@ -66,7 +71,7 @@ export default function GoogleLogin() {
         color= "red"
         onPress={accesToken ? getUserData : () => {promptAsync({showInRecents: true})}}
       />
-      
+      {/*showUserInfo()*/}
     </View>
     
   );
