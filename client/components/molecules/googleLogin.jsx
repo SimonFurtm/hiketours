@@ -23,11 +23,11 @@ export default function GoogleLogin() {
   React.useEffect(() => { //when response changes
     if (response?.type === 'success') {
       setAccessToken(response.authentication.accessToken); //set token
-      accesToken && fetchUserInfo();
+      //accesToken && getUserData();
     }
   }, [response, accesToken]);
 
-  async function fetchUserInfo(){
+  async function getUserData(){
     let response = await fetch("http://www.googleapis.com/userinfo/v2/me", {
       headers: { Authorization: `Bearer ${accesToken}`}
     });
@@ -61,6 +61,11 @@ export default function GoogleLogin() {
           }}
       />
       }
+      <Button 
+        title={accesToken ? "Get User Data" : "Login"}
+        color= "red"
+        onPress={accesToken ? getUserData : () => {promptAsync({showInRecents: true})}}
+      />
       
     </View>
     
