@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Dimensions, Button, Pressable, TouchableOpacity
 import * as Location from 'expo-location';
 import { Popup } from 'react-native-map-link';
 import { AntDesign } from '@expo/vector-icons';
-import ChangeMapStyleButton from '../atoms/changeMapStyleButton';
+
 
 
 export default function Map() {
@@ -88,7 +88,6 @@ export default function Map() {
   const moveToLocation = () => {
     if (location != null) {
       console.log("moving to location");
-      changeMapStyle();
       mapRef.current.animateToRegion({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
@@ -107,19 +106,26 @@ export default function Map() {
     setModalVisible(true);
   };
 
-  var x = 1;
   const changeMapStyle = () => {
-    //change x every second time
-    x = x % 2;
-    x++;
-    
-    console.log(x);
-    if (x == 1) {
-    setMapStyle("standard");
+    //change x every third time
+    console.log(count);
+    if (count == 1) {
+    setMapStyle("satellite");
+    setCount(2);
     }
-    if (x == 2) {
+    if (count == 2) {
+    setMapStyle("standard");
+    setCount(3);
+    }
+    if (count == 3) {
+    setMapStyle("terrain");
+    setCount(4);
+    }
+    if (count == 4) {
     setMapStyle("hybrid");
-  }}
+    setCount(1);
+    }
+}
 
 
   return (
@@ -163,11 +169,21 @@ export default function Map() {
             color="white"
 
       />
-
       </TouchableOpacity>
 
 
-      <ChangeMapStyleButton />
+      <TouchableOpacity
+        style={styles.MapStyleButtonView}
+        onPress={changeMapStyle}
+        >
+            <AntDesign
+            style={styles.ButtonImage} 
+            name="minuscircle"
+            size={40}
+            color="white"
+
+            />
+        </TouchableOpacity>
 
       <MapView style={styles.map}
         showsUserLocation={true}
@@ -305,11 +321,25 @@ const styles = StyleSheet.create({
     height: '10%',
     position: 'absolute',
     bottom: '10%',
-    right: '5%',
+    right: '0%',
  
     zIndex:2,
   },
   locationButtonImage: {
+    width: '100%',
+    height: '100%',
+
+    zIndex:2,
+  }, MapStyleButtonView: {
+    width: '15%',
+    height: '10%',
+    position: 'absolute',
+    bottom: '5%',
+    right: '10%',
+ 
+    zIndex:2,
+  },
+  ButtonImage: {
     width: '100%',
     height: '100%',
 
