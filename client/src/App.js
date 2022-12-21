@@ -8,6 +8,7 @@ import Navbar from "./components/navbar";
 import RoutenList from "./components/routenList";
 import Edit from "./components/edit";
 import AddRoute from "./components/addRoute";
+import Footer from "./components/Footer";
  
 const App = () => {
  return (
@@ -15,9 +16,10 @@ const App = () => {
      <Navbar />
      <Routes>
        <Route exact path="/" element={<RoutenList />} />
-       <Route path="/edit/:name" element={<Edit />} />
+       <Route path="/edit" element={<Edit />} />
        <Route path="/addRoute" element={<AddRoute />} />
      </Routes>
+     <Footer/>
    </div>
  );
 };

@@ -4,7 +4,8 @@ import axios from 'axios';
 
 export default function AddRoute() {
   const [form, setForm] = useState({
-    file: null
+    file: null,
+    info: ""
   });
   const navigate = useNavigate();
 
@@ -30,7 +31,8 @@ export default function AddRoute() {
         type: data.type,
         name: data.name,
         crs: data.crs,
-        features: data.features
+        features: data.features,
+        info: form.info
       };
 
       // Send the data to the server
@@ -40,7 +42,7 @@ export default function AddRoute() {
           return;
         });
 
-      setForm({ file: null });
+      setForm({ file: null,info: "" });
       navigate("/");
     };
     // Read the file
@@ -49,7 +51,7 @@ export default function AddRoute() {
 
   return (
     <div>
-      <h3>Add New Route</h3>
+      <h3 className="centered-heading">Add New Route</h3>
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label htmlFor="file">File</label>
@@ -59,11 +61,18 @@ export default function AddRoute() {
             id="file"
             onChange={(e) => updateForm("file", e.target.files[0])}
           />
+          <input
+            type="text"
+            className="form-control"
+            id="info"
+            value={form.info}
+            onChange={(e) => updateForm("info", e.target.value)}
+          />
         </div>
         <div className="form-group">
           <input
             type="submit"
-            value="Create Route"
+            value="Add Route"
             className="btn btn-primary"
           />
         </div>

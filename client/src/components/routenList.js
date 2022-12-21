@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 const Routen = (props) => (
  <tr>
    <td>{props.name}</td>
+   <td>{props.info}</td>
    <td>
-     <Link className="btn btn-link" to={`api/update/${props.name}`}>Edit</Link> |
+     <Link className="btn btn-link" to={`/edit`}>Edit</Link> |
      <button className="btn btn-link"
        onClick={() => {
          props.deleteRoute(props.name);
@@ -48,7 +49,7 @@ export default function RoutenList() {
  
  // This method will delete a route add api between 7000/api/delete
  async function deleteRoute(name) {
-   await fetch(`http://localhost:7000/delete/${name}`, {
+   await fetch(`http://localhost:7000/api/delete/${name}`, {
      method: "DELETE"
    });
  
@@ -62,6 +63,7 @@ export default function RoutenList() {
      return (
        <Routen
          name={route.name}
+         info={route.info}
          deleteRoute={()=>deleteRoute(route.name)}
          key={route._id}
        />
@@ -77,6 +79,7 @@ export default function RoutenList() {
        <thead>
          <tr>
            <th>Name</th>
+           <th>Information</th>
          </tr>
        </thead>
        <tbody>{routenList()}</tbody>

@@ -1,126 +1,109 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router";
- 
-export default function Update() {
-  const [form, setForm] = useState({
-    type: "",
-    name: "",
-    crs: "",
-    features: "",
-});
- const params = useParams();
- const navigate = useNavigate();
- 
- useEffect(() => {
-   async function fetchData() {
-     const name = params.name.toString();
-     const response = await fetch(`http://localhost:7000/api/update/${params.name.toString()}`);
- 
-     if (!response.ok) {
-       const message = `An error has occurred: ${response.statusText}`;
-       window.alert(message);
-       return;
-     }
- 
-     const route = await response.json();
-     if (!route) {
-       window.alert(`Route with id ${name} not found`);
-       navigate("/");
-       return;
-     }
- 
-     setForm(route);
-   }
- 
-   fetchData();
- 
-   return;
- }, [params.name, navigate]);
- 
- // These methods will update the state properties.
- function updateForm(value) {
-   return setForm((prev) => {
-     return { ...prev, ...value };
-   });
- }
- 
- async function onSubmit(e) {
-   e.preventDefault();
-   const editedRoute = {
-     type: form.type,
-     name: form.name,
-     crs: form.crs,
-     features: form.features,
-   };
- 
-   // This will send a post request to update the data in the database.
-   await fetch(`http://localhost:7000/update/${params.name}`, {
-     method: "POST",
-     body: JSON.stringify(editedRoute),
-     headers: {
-       'Content-Type': 'application/json'
-     },
-   });
- 
-   navigate("/");
- }
- 
- // This following section will display the form that takes input from the user to update the data.
- return (
-   <div>
-     <h3>Update Route</h3>
-     <form onSubmit={onSubmit}>
-       <div className="form-group">
-         <label htmlFor="name">Type: </label>
-         <input
-           type="text"
-           className="form-control"
-           id="type"
-           value={form.type}
-           onChange={(e) => updateForm({ type: e.target.value })}
-         />
-       </div>
-       <div className="form-group">
-         <label htmlFor="position">Name: </label>
-         <input
-           type="text"
-           className="form-control"
-           id="name"
-           value={form.position}
-           onChange={(e) => updateForm({ name: e.target.value })}
-         />
-       </div>
-       <div className="form-group">
-         <label htmlFor="position">Crs: </label>
-         <input
-           type="text"
-           className="form-control"
-           id="crs"
-           value={form.crs}
-           onChange={(e) => updateForm({ crs: e.target.value })}
-         />
-       </div>
-       <div className="form-group">
-         <label htmlFor="position">Features: </label>
-         <input
-           type="text"
-           className="form-control"
-           id="features"
-           value={form.features}
-           onChange={(e) => updateForm({ features: e.target.value })}
-         />
-       </div>
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import axios from 'axios';
 
-       <br />
- 
-       <div className="form-group">
-         <input
-           type="submit"
-           value="Update Route"
-           className="btn btn-primary"
-         />
-       </div>
-     </form>
-   </div>
- );
+export default function UpdateRoute() {
+  const [form, setForm] = useState({
+    file: null,
+    name: "", // add a field to store the name of the route to update
+    info: ""
+  });
+  const navigate = useNavigate();
+
+  function updateForm(key, value) {
+    setForm((prev) => {
+      return { ...prev, [key]: value };
+    });
+  }
+
+  async function onSubmit(e) {
+    e.preventDefault();
+
+    // Check if a file was selected
+    if (form.file) {
+      // Create a FileReader object
+      const reader = new FileReader();
+
+      // Set the onload event handler
+      reader.onload = () => {
+        // Parse the data into a JavaScript object
+        const data = JSON.parse(reader.result);
+
+        // Extract the values from the data object
+        const updatedRoute = {
+          type: data.type,
+          name: data.name,
+          crs: data.crs,
+          features: data.features,
+          info: form.info
+        };
+
+        // Send the data to the server to update the route
+        axios.patch(`http://localhost:7000/api/update/${form.name}`, updatedRoute)
+          .catch(error => {
+            window.alert(error);
+            return;
+          });
+
+        setForm({ file: null, name: "", info:"" });
+        navigate("/");
+      };
+      // Read the file
+      reader.readAsText(form.file);
+    } else {
+      // Send a request to update the route without a file
+      axios.patch(`http://localhost:7000/api/update/${form.name}`, { info: form.info })
+        .catch(error => {
+          window.alert(error);
+          return;
+        });
+
+      setForm({ file: null, name: "", info:"" });
+      navigate("/");
+    }
+  }
+
+  return (
+    <div>
+      <h3 className="centered-heading">Update Route</h3>
+      <form onSubmit={onSubmit}>
+        <div className="form-group">
+          <label htmlFor="file">File (optional)</label>
+          <input
+            type="file"
+            className="form-control"
+            id="file"
+            onChange={(e) => updateForm("file", e.target.files[0])}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="name">Route Name</label>
+          <input
+            type="text"
+            className="form-control"
+            id="name"
+            value={form.name}
+            onChange={(e) => updateForm("name", e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+        <label htmlFor="info">Info</label>
+        <input
+          type="text"
+          className="form-control"
+          id="info"
+          value={form.info}
+          onChange={(e) => updateForm("info", e.target.value)}
+        />
+        </div>
+        <div className="form-group">
+          <input
+            type="submit"
+            value="Update Route"
+            className="btn btn-primary"
+          />
+        </div>
+      </form>
+    </div>
+  );
 }
