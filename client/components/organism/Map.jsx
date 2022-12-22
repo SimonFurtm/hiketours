@@ -26,6 +26,8 @@ export default function Map() {
   const [time, setTime] = useState(Date.now());
   const [count, setCount] = useState(0);
 
+  const [currGeojson, setCurrGeojson] = useState(Hubertusweg);
+
 
   const Bischofshofen = {
     latitude: 47.41545773037797,
@@ -101,7 +103,8 @@ export default function Map() {
   //When pressing on a route
   const handleGeoJsonPress = (event) => {
     //print the name of the route to the console
-    console.log(event.name);
+    setCurrGeojson(event);
+    console.log(currGeojson.name);
     //set the state of the modal to true
     setModalVisible(true);
   };
@@ -142,7 +145,7 @@ export default function Map() {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
+            <Text style={styles.modalText}>{currGeojson.name}</Text>
 
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
@@ -178,7 +181,7 @@ export default function Map() {
         >
             <AntDesign
             style={styles.ButtonImage} 
-            name="minuscircle"
+            name="earth"
             size={40}
             color="white"
 
