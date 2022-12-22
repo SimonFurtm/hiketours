@@ -5,6 +5,7 @@ const Routen = (props) => (
  <tr>
    <td>{props.name}</td>
    <td>{props.info}</td>
+   <td>{props.color}</td>
    <td>
      <Link className="btn btn-link" to={`/edit`}>Edit</Link> |
      <button className="btn btn-link"
@@ -64,6 +65,7 @@ export default function RoutenList() {
        <Routen
          name={route.name}
          info={route.info}
+         color={route.color}
          deleteRoute={()=>deleteRoute(route.name)}
          key={route._id}
        />
@@ -80,6 +82,7 @@ export default function RoutenList() {
          <tr>
            <th>Name</th>
            <th>Information</th>
+           <th>Farbe</th>
          </tr>
        </thead>
        <tbody>{routenList()}</tbody>

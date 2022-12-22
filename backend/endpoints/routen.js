@@ -43,7 +43,8 @@ Routes.route("/api/add").post(function (req, res) {
     name: req.body.name,
     crs: req.body.crs,
     features: req.body.features,
-    info: req.body.info
+    info: req.body.info,
+    color:req.body.color
   };
   db_connect.collection("Routen").insertOne(myobj, function (err, result) {
     if (err) throw err;
@@ -75,7 +76,9 @@ Routes.route("/api/update/:name").patch(function (req, response) {
   if (req.body.info) {
     newvalues.$set.info = req.body.info;
   }
-
+  if (req.body.color) {
+    newvalues.$set.color = req.body.color;
+  }
   // Perform update operation
   db_connect
     .collection("Routen")

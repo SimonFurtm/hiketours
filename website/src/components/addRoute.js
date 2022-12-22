@@ -5,7 +5,8 @@ import axios from 'axios';
 export default function AddRoute() {
   const [form, setForm] = useState({
     file: null,
-    info: ""
+    info: "",
+    color: ""
   });
   const navigate = useNavigate();
 
@@ -32,7 +33,8 @@ export default function AddRoute() {
         name: data.name,
         crs: data.crs,
         features: data.features,
-        info: form.info
+        info: form.info,
+        color: form.color
       };
 
       // Send the data to the server
@@ -67,6 +69,13 @@ export default function AddRoute() {
             id="info"
             value={form.info}
             onChange={(e) => updateForm("info", e.target.value)}
+          />
+          <input
+            type="color"
+            className="form-control"
+            id="color"
+            value={form.color}
+            onChange={(e) => updateForm("color", e.target.value)}
           />
         </div>
         <div className="form-group">

@@ -6,7 +6,8 @@ export default function UpdateRoute() {
   const [form, setForm] = useState({
     file: null,
     name: "", // add a field to store the name of the route to update
-    info: ""
+    info: "",
+    color: ""
   });
   const navigate = useNavigate();
 
@@ -35,7 +36,8 @@ export default function UpdateRoute() {
           name: data.name,
           crs: data.crs,
           features: data.features,
-          info: form.info
+          info: form.info,
+          color: form.color
         };
 
         // Send the data to the server to update the route
@@ -45,20 +47,20 @@ export default function UpdateRoute() {
             return;
           });
 
-        setForm({ file: null, name: "", info:"" });
+        setForm({ file: null, name: "", info:"", color:""});
         navigate("/");
       };
       // Read the file
       reader.readAsText(form.file);
     } else {
       // Send a request to update the route without a file
-      axios.patch(`http://localhost:7000/api/update/${form.name}`, { info: form.info })
+      axios.patch(`http://localhost:7000/api/update/${form.name}`, { info: form.info, color: form.color})
         .catch(error => {
           window.alert(error);
           return;
         });
 
-      setForm({ file: null, name: "", info:"" });
+      setForm({ file: null, name: "", info:"", color:"" });
       navigate("/");
     }
   }
@@ -87,14 +89,24 @@ export default function UpdateRoute() {
           />
         </div>
         <div className="form-group">
-        <label htmlFor="info">Info</label>
-        <input
-          type="text"
-          className="form-control"
-          id="info"
-          value={form.info}
-          onChange={(e) => updateForm("info", e.target.value)}
-        />
+          <label htmlFor="info">Info</label>
+          <input
+            type="text"
+            className="form-control"
+            id="info"
+            value={form.info}
+            onChange={(e) => updateForm("info", e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="color">Color</label>
+          <input
+            type="text"
+            className="form-control"
+            id="color"
+            value={form.info}
+            onChange={(e) => updateForm("color", e.target.value)}
+          />
         </div>
         <div className="form-group">
           <input

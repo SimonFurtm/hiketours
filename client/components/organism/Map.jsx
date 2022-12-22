@@ -47,9 +47,10 @@ export default function Map() {
   const [errorMsg, setErrorMsg] = useState(null);
   const [lastLocation, setLastLocation] = useState(null);
 
+  const [routen, setRoute] = useState([]); //javascript
+  //const [routen, setRoute] = useState<any[]>([]); //typescript
+
   useEffect(() => {
-    setCount(count + 1);
-    console.log(count);
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
@@ -63,30 +64,31 @@ export default function Map() {
       setPinRed({ latitude: location.coords.latitude, longitude: location.coords.longitude })
       setLastLocation(lastLocation);
     })();
-  }, []);
+    
+    //fetch DB Data
+    async function getRouten() {
+      //console.log("Fetching routes from server...");
+      const response = await fetch(`http://192.168.0.28:7000/api/allroutes`);
 
-  let text = 'Waiting..';
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
+      if (!response.ok) {
+        const message = `An error occurred: ${response.statusText}`;
+        window.alert(message);
+        return;
+      }
 
-  const onPressTest = () => {
-    if (location != null) {
-      let currLatitude = location.coords.latitude
-      let currLongitude = location.coords.longitude
-      let currLatitudeDelta = location.coords.latitudeDelta
-      let currLongitudeDelta = location.coords.longitudeDelta
-
-      console.log(currLatitude, currLongitude, currLatitudeDelta, currLongitudeDelta)
-      setPinRed({ latitude: currLatitude, longitude: currLongitude })
-
-    } else {
-      console.log("location is not known")
+      const data = await response.json();
+      if (Array.isArray(data)) {
+        //console.log("Fetched routes:", data);
+        setRoute(data);
+      } else {
+        console.error("Received non-array data from server:", data);
+      }
     }
+    getRouten();
+    return;
+  }, [routen]);
 
-  }
+
   const moveToLocation = () => {
     if (location != null) {
       console.log("moving to location");
@@ -96,6 +98,15 @@ export default function Map() {
         latitudeDelta: 0.005,
         longitudeDelta: 0.005
       })
+    }
+  }
+
+  const nextRout = () => {
+    if (routen != null) {
+      () => getRouten();
+      console.log("Getting Data");
+    }else{
+      console.log("Check the DB-Connection");
     }
   }
 
@@ -135,9 +146,8 @@ export default function Map() {
     <View>
       {/*Popup window when clicking on GeoJson path using a Modal*/}
       <Modal
-        animationType="slide"
-
-        transparent={false}
+        animationType="fade"
+        transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
           Alert.alert("Modal has been closed.");
@@ -159,22 +169,27 @@ export default function Map() {
       </Modal>
       {/*End of Modal*/}
 
-
        {/*Adds a Button that moves to your location when pressed*/}
-       <TouchableOpacity
-          style={[styles.UIButtonView]}
-          onPress={moveToLocation}
-        >
-          <AntDesign
-            style={styles.locationButtonImage} 
-            name="pluscircle"
-            size={40}
-            color="white"
-
-      />
+      <TouchableOpacity style={[styles.UIButtonView]}onPress={moveToLocation}>
+        <AntDesign
+          style={styles.locationButtonImage} 
+          name="pluscircle"
+          size={40}
+          color="white"
+        />
       </TouchableOpacity>
-
-
+      
+      {/*Adds a Button that moves to your location when pressed*/}
+      <TouchableOpacity style={[styles.RouteStyleButtonView]}onPress={nextRout}>
+        <AntDesign
+          style={styles.locationButtonImage} 
+          name="forward"
+          size={40}
+          color="white"
+        />
+      </TouchableOpacity>
+      
+      {/*Adds a Button that changes the map type*/}
       <TouchableOpacity
         style={styles.MapStyleButtonView}
         onPress={changeMapStyle}
@@ -184,7 +199,6 @@ export default function Map() {
             name="earth"
             size={40}
             color="white"
-
             />
         </TouchableOpacity>
 
@@ -196,7 +210,18 @@ export default function Map() {
         provider="google"
       >
 
-        {/*Create a GeoJson object*/}
+        {/*Map all routes from the database*/}
+        {routen.map((route) => (
+          <Geojson
+            tappable
+            geojson={route}
+            strokeColor="green"
+            strokeWidth={2}
+            onPress={() => handleGeoJsonPress(route)}
+          />
+        
+      ))}
+      
         <Geojson
           tappable
           geojson={Hubertusweg}
@@ -213,7 +238,7 @@ export default function Map() {
           //Open a popup window and send the name of the route to the popup
           onPress={() => handleGeoJsonPress(Erzweg)}
         />
-
+        {/*
         <Marker
           coordinate={pinBlue}
           pinColor="blue"
@@ -230,7 +255,7 @@ export default function Map() {
           }}
         >
         </Marker>
-
+        */}
         <Marker
           coordinate={pinRed}
           pinColor="red"
@@ -247,6 +272,7 @@ export default function Map() {
           }}
         >
         </Marker>
+        
       </MapView >
     </View>
 
@@ -333,9 +359,19 @@ const styles = StyleSheet.create({
     height: '100%',
 
     zIndex:2,
-  }, MapStyleButtonView: {
+  }, 
+  MapStyleButtonView: {
     width: '15%',
     height: '10%',
+    position: 'absolute',
+    bottom: '5%',
+    right: '10%',
+ 
+    zIndex:2,
+  },
+  RouteStyleButtonView: {
+    width: '15%',
+    height: '20%',
     position: 'absolute',
     bottom: '5%',
     right: '10%',
