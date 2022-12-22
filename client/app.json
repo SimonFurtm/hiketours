@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Hike-Tours",
+    "slug": "hike-tours",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "at.hiketours.client"
+    },
+    "android": {
+      "package": "at.hiketours.client",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/images/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6a4fe5e7-3bd9-41c6-bea0-14b6dc2a62d1"
+      }
+    },
+    "plugins": ["expo-apple-authentication"]
+  }
+}
