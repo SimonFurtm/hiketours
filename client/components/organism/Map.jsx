@@ -24,7 +24,7 @@ export default function Map() {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [time, setTime] = useState(Date.now());
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
 
   const [currGeojson, setCurrGeojson] = useState(Hubertusweg);
 
@@ -47,7 +47,7 @@ export default function Map() {
   const [errorMsg, setErrorMsg] = useState(null);
   const [lastLocation, setLastLocation] = useState(null);
 
-  const [routen, setRoute] = useState([]); //javascript
+  const [routes, setRoute] = useState([]); //javascript
   //const [routen, setRoute] = useState<any[]>([]); //typescript
 
   useEffect(() => {
@@ -66,9 +66,9 @@ export default function Map() {
     })();
     
     //fetch DB Data
-    async function getRouten() {
+    async function getRoutes() {
       //console.log("Fetching routes from server...");
-      const response = await fetch(`http://192.168.0.28:7000/api/allroutes`);
+      const response = await fetch(`http://localhost:7000/api/allroutes`);
 
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
@@ -84,9 +84,9 @@ export default function Map() {
         console.error("Received non-array data from server:", data);
       }
     }
-    getRouten();
+    getRoutes();
     return;
-  }, [routen]);
+  }, [routes]);
 
 
   const moveToLocation = () => {
@@ -102,7 +102,7 @@ export default function Map() {
   }
 
   const nextRout = () => {
-    if (routen != null) {
+    if (routes != null) {
       () => getRouten();
       console.log("Getting Data");
     }else{
@@ -156,6 +156,8 @@ export default function Map() {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>{currGeojson.name}</Text>
+            <Text style={styles.modalText}>{currGeojson.name}</Text>
+
 
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
@@ -211,7 +213,7 @@ export default function Map() {
       >
 
         {/*Map all routes from the database*/}
-        {routen.map((route) => (
+        {routes.map((route) => (
           <Geojson
             tappable
             geojson={route}
@@ -349,39 +351,29 @@ const styles = StyleSheet.create({
     width: '15%',
     height: '10%',
     position: 'absolute',
-    bottom: '10%',
-    right: '0%',
+    bottom: '30%',
+    left: '88%',
  
     zIndex:2,
   },
-  locationButtonImage: {
-    width: '100%',
-    height: '100%',
-
-    zIndex:2,
-  }, 
+  
   MapStyleButtonView: {
     width: '15%',
     height: '10%',
     position: 'absolute',
-    bottom: '5%',
-    right: '10%',
+    bottom: '50%',
+    left: '88%',
  
     zIndex:2,
   },
   RouteStyleButtonView: {
     width: '15%',
-    height: '20%',
+    height: '10%',
     position: 'absolute',
-    bottom: '5%',
-    right: '10%',
+    bottom: '40%',
+    left: '88%',
  
     zIndex:2,
   },
-  ButtonImage: {
-    width: '100%',
-    height: '100%',
 
-    zIndex:2,
-  }
 });
