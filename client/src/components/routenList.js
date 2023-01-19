@@ -25,7 +25,7 @@ export default function RoutenList() {
  useEffect(() => {
    async function getRouten() {
      console.log("Fetching routes from server...");
-     const response = await fetch(`http://localhost:7000/api/allroutes`);
+     const response = await fetch(`https://hiketours.software:7000/api/allroutes`);
  
      if (!response.ok) {
        const message = `An error occurred: ${response.statusText}`;
@@ -49,7 +49,7 @@ export default function RoutenList() {
  
  // This method will delete a route add api between 7000/api/delete
  async function deleteRoute(name) {
-   await fetch(`http://localhost:7000/api/delete/${name}`, {
+   await fetch(`https://hiketours.software:7000/api/delete/${name}`, {
      method: "DELETE"
    });
  

@@ -39,7 +39,7 @@ export default function UpdateRoute() {
         };
 
         // Send the data to the server to update the route
-        axios.patch(`http://localhost:7000/api/update/${form.name}`, updatedRoute)
+        axios.patch(`https://hiketours.software:7000/api/update/${form.name}`, updatedRoute)
           .catch(error => {
             window.alert(error);
             return;
@@ -52,7 +52,7 @@ export default function UpdateRoute() {
       reader.readAsText(form.file);
     } else {
       // Send a request to update the route without a file
-      axios.patch(`http://localhost:7000/api/update/${form.name}`, { info: form.info })
+      axios.patch(`https://hiketours.software:7000/api/update/${form.name}`, { info: form.info })
         .catch(error => {
           window.alert(error);
           return;

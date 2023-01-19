@@ -36,7 +36,7 @@ export default function AddRoute() {
       };
 
       // Send the data to the server
-      axios.post("http://localhost:7000/api/add", newRoute)
+      axios.post("https://hiketours.software/api/add", newRoute)
         .catch(error => {
           window.alert(error);
           return;
