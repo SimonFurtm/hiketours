@@ -2,7 +2,8 @@
   "name": "hiketours",
   "version": "1.0.0",
   "scripts": {
-    "build": "cd website && npm run build && cd ../backend && npm run build"
+    "build": "cd website && npm run build && cd ../backend && npm run build",
+    "start": "cd website && npm run start && cd ../backend && npm run start"
   },
   "private": true,
   "description": "",

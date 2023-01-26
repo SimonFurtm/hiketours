@@ -24,7 +24,7 @@ Routes.route("/api/allroutes").get(function (req, res) {
 });
 
 // This section will help you get a single routes by name
-Routes.route("/api/:name").get(function (req, res) {
+Routes.route("/api/get/:name").get(function (req, res) {
   let db_connect = dbo.getDb();
   let myquery = { name: (req.params.name) };
   db_connect
@@ -36,7 +36,7 @@ Routes.route("/api/:name").get(function (req, res) {
 });
 
 // This section will help you create a new route.
-Routes.route("/api/add").post(function (req, res) {
+Routes.route("/api/add/route").post(function (req, res) {
   let db_connect = dbo.getDb();
   let myobj = {
     type: req.body.type,

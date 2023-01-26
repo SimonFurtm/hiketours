@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
  
+const API_URL = 'http://localhost:7000';
+
 const Routen = (props) => (
  <tr>
    <td>{props.name}</td>
@@ -24,9 +26,9 @@ export default function RoutenList() {
  // This method fetches the routes from the database.
  useEffect(() => {
    async function getRouten() {
-     console.log("Fetching routes from server...");
-     const response = await fetch(`https://hiketours.software:7000/api/allroutes`);
- 
+     console.log("Fetching routes from server..."+ API_URL);
+     const response = await fetch(API_URL + "/api/allroutes");
+  
      if (!response.ok) {
        const message = `An error occurred: ${response.statusText}`;
        window.alert(message);
@@ -34,6 +36,7 @@ export default function RoutenList() {
      }
 
       const data = await response.json();
+      console.log(data);
       if (Array.isArray(data)) {
         console.log("Fetched routes:", data);
         setRoute(data);
@@ -49,7 +52,7 @@ export default function RoutenList() {
  
  // This method will delete a route add api between 7000/api/delete
  async function deleteRoute(name) {
-   await fetch(`https://hiketours.software:7000/api/delete/${name}`, {
+   await fetch(`${API_URL}/delete/${name}`, {
      method: "DELETE"
    });
  

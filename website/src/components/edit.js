@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from 'axios';
 
+const API_URL = 'http://localhost:7000';
+
 export default function UpdateRoute() {
   const [form, setForm] = useState({
     file: null,
@@ -39,7 +41,7 @@ export default function UpdateRoute() {
         };
 
         // Send the data to the server to update the route
-        axios.patch(`https://hiketours.software:7000/api/update/${form.name}`, updatedRoute)
+        axios.patch(API_URL+`/update/${form.name}`, updatedRoute)
           .catch(error => {
             window.alert(error);
             return;
@@ -52,7 +54,7 @@ export default function UpdateRoute() {
       reader.readAsText(form.file);
     } else {
       // Send a request to update the route without a file
-      axios.patch(`https://hiketours.software:7000/api/update/${form.name}`, { info: form.info })
+      axios.patch(API_URL+`/update/${form.name}`, { info: form.info })
         .catch(error => {
           window.alert(error);
           return;

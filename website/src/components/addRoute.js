@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from 'axios';
 
+const API_URL = 'http://localhost:7000';
+
+
 export default function AddRoute() {
   const [form, setForm] = useState({
     file: null,
@@ -36,7 +39,7 @@ export default function AddRoute() {
       };
 
       // Send the data to the server
-      axios.post("https://hiketours.software/api/add", newRoute)
+      axios.post(API_URL+"/add/route", newRoute)
         .catch(error => {
           window.alert(error);
           return;
