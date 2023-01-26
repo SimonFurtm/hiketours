@@ -1,0 +1,21 @@
+{
+  "name": "hiketours",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd website && npm run build && cd ../backend && npm run build"
+  },
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SimonFurtm/hiketours.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SimonFurtm/hiketours/issues"
+  },
+  "homepage": "https://github.com/SimonFurtm/hiketours#readme"
+}
