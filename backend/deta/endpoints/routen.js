@@ -12,7 +12,7 @@ const ObjectId = require("mongodb").ObjectId;
 
 
 // This section will help you get a list of all the Routs.
-Routes.route("/api/allroutes").get(function (req, res) {
+Routes.route("/api/allRoutes").get(function (req, res) {
   let db_connect = dbo.getDb();
   console.log(db_connect);
   db_connect
@@ -25,7 +25,7 @@ Routes.route("/api/allroutes").get(function (req, res) {
 });
 
 // This section will help you get a single routes by name
-Routes.route("/api/get/:name").get(function (req, res) {
+Routes.route("/api/getRoute/:name").get(function (req, res) {
   let db_connect = dbo.getDb();
   let myquery = { name: (req.params.name) };
   db_connect
@@ -37,7 +37,7 @@ Routes.route("/api/get/:name").get(function (req, res) {
 });
 
 // This section will help you create a new route.
-Routes.route("/api/add/route").post(function (req, res) {
+Routes.route("/api/addRoute/route").post(function (req, res) {
   let db_connect = dbo.getDb();
   let myobj = {
     type: req.body.type,
@@ -53,7 +53,7 @@ Routes.route("/api/add/route").post(function (req, res) {
 });
 
 // This section will help you update a route by name.
-Routes.route("/api/update/:name").patch(function (req, response) {
+Routes.route("/api/updateRoute/:name").patch(function (req, response) {
   let db_connect = dbo.getDb();
   let myquery = { name: (req.params.name) };
 
@@ -89,7 +89,7 @@ Routes.route("/api/update/:name").patch(function (req, response) {
 
 
 // This section will help you delete a route
-Routes.route("/api/delete/:name").delete((req, response) => {
+Routes.route("/api/deleteRoute/:name").delete((req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { name: (req.params.name) };
   db_connect.collection("Routen").deleteOne
