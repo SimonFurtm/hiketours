@@ -23,6 +23,9 @@ export default function Map() {
   //modal state
   const [modalVisible, setModalVisible] = useState(false);
 
+  //custom route that the user will be tracking
+  const [customRoute, setCustomRoute] = useState(null)
+
   const [time, setTime] = useState(Date.now());
   const [count, setCount] = useState(1);
 
@@ -64,11 +67,11 @@ export default function Map() {
       setPinRed({ latitude: location.coords.latitude, longitude: location.coords.longitude })
       setLastLocation(lastLocation);
     })();
-    
+
     //fetch DB Data
     async function getRoutes() {
       //console.log("Fetching routes from server...");
-      const response = await fetch(`http://192.168.0.28:7000/api/allroutes`);
+      const response = await fetch(`https://zk2ezn.deta.dev/api/allroutes`);
 
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
@@ -105,7 +108,7 @@ export default function Map() {
     if (routes != null) {
       () => getRouten();
       console.log("Getting Data");
-    }else{
+    } else {
       console.log("Check the DB-Connection");
     }
   }
@@ -124,22 +127,26 @@ export default function Map() {
     //change x every third time
     console.log(count);
     if (count == 1) {
-    setMapStyle("satellite");
-    setCount(2);
+      setMapStyle("satellite");
+      setCount(2);
     }
     if (count == 2) {
-    setMapStyle("standard");
-    setCount(3);
+      setMapStyle("standard");
+      setCount(3);
     }
     if (count == 3) {
-    setMapStyle("terrain");
-    setCount(4);
+      setMapStyle("terrain");
+      setCount(4);
     }
     if (count == 4) {
-    setMapStyle("hybrid");
-    setCount(1);
+      setMapStyle("hybrid");
+      setCount(1);
     }
-}
+  }
+
+  const trackUserRoute = () => {
+    
+  }
 
 
   return (
@@ -155,14 +162,17 @@ export default function Map() {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            {/*Text above the buttons*/}
             <Text style={styles.modalText}>{currGeojson.name}</Text>
             <Text style={styles.modalText}>{currGeojson.info}</Text>
+            {/*Button to start the route*/}
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(false)}
             >
-              <Text style={styles.textStyle}>Tracking starten</Text>
+              <Text style={styles.textStyle}>Weg starten</Text>
             </TouchableOpacity>
+            {/*Button to exit popup window*/}
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(false)}
@@ -174,38 +184,38 @@ export default function Map() {
       </Modal>
       {/*End of Modal*/}
 
-       {/*Adds a Button that moves to your location when pressed*/}
-      <TouchableOpacity style={[styles.UIButtonView]}onPress={moveToLocation}>
+      {/*Adds a Button that moves to your location when pressed*/}
+      <TouchableOpacity style={[styles.UIButtonView]} onPress={moveToLocation}>
         <AntDesign
-          style={styles.locationButtonImage} 
+          style={styles.locationButtonImage}
           name="pluscircle"
           size={40}
           color="white"
         />
       </TouchableOpacity>
-      
-      {/*Adds a Button that moves to your location when pressed*/}
-      <TouchableOpacity style={[styles.RouteStyleButtonView]}onPress={nextRoute}>
+
+      {/*I woas immano ned wos des mocht Simon*/}
+      <TouchableOpacity style={[styles.RouteStyleButtonView]} onPress={nextRoute}>
         <AntDesign
-          style={styles.locationButtonImage} 
+          style={styles.locationButtonImage}
           name="forward"
           size={40}
           color="white"
         />
       </TouchableOpacity>
-      
-      {/*Adds a Button that changes the map type*/}
+
+      {/*Adds a Button that changes the map type (satelite, hightmap, etc...)*/}
       <TouchableOpacity
         style={styles.MapStyleButtonView}
         onPress={changeMapStyle}
-        >
-            <AntDesign
-            style={styles.ButtonImage} 
-            name="earth"
-            size={40}
-            color="white"
-            />
-        </TouchableOpacity>
+      >
+        <AntDesign
+          style={styles.ButtonImage}
+          name="earth"
+          size={40}
+          color="white"
+        />
+      </TouchableOpacity>
 
       <MapView style={styles.map}
         showsUserLocation={true}
@@ -213,6 +223,7 @@ export default function Map() {
         mapType={mapStyle}
         region={Bischofshofen}
         provider="google"
+        onUserLocationChange={setCustomRoute()}
       >
 
         {/*Map all routes from the database*/}
@@ -220,13 +231,14 @@ export default function Map() {
           <Geojson
             tappable
             geojson={route}
-            strokeColor="green"
+            strokeColor="blue"
             strokeWidth={2}
             onPress={() => handleGeoJsonPress(route)}
           />
-        
-      ))}
-      
+
+        ))}
+
+        {/*Adds the static route Hubertusweg for test purposes*/}
         <Geojson
           tappable
           geojson={Hubertusweg}
@@ -235,6 +247,7 @@ export default function Map() {
           onPress={() => handleGeoJsonPress(Hubertusweg)}
         />
 
+        {/*Adds the static route Erzweg for test purposes*/}
         <Geojson
           tappable
           geojson={Erzweg}
@@ -243,41 +256,12 @@ export default function Map() {
           //Open a popup window and send the name of the route to the popup
           onPress={() => handleGeoJsonPress(Erzweg)}
         />
-        {/*
-        <Marker
-          coordinate={pinBlue}
-          pinColor="blue"
-          draggable={true}
-          onDragStart={(e) => {
-            console.log("Drag start", e.nativeEvent.coordinate);
-          }}
-          onDragEnd={(e) => {
-            setPinBlue({
-              latitude: e.nativeEvent.coordinate.latitude,
-              longitude: e.nativeEvent.coordinate.longitude,
-            }
-            )
-          }}
-        >
-        </Marker>
-        */}
-        <Marker
-          coordinate={pinRed}
-          pinColor="red"
-          draggable={true}
-          onDragStart={(e) => {
-            console.log("Drag start", e.nativeEvent.coordinate);
-          }}
-          onDragEnd={(e) => {
-            setPinRed({
-              latitude: e.nativeEvent.coordinate.latitude,
-              longitude: e.nativeEvent.coordinate.longitude,
-            }
-            )
-          }}
-        >
-        </Marker>
-        
+        {/*Draw the current route that the user is tracking*/}
+        <Polyline
+          coordinates={customRoute}
+          strokeColor="red"
+          strokeWidth={2}
+        />
       </MapView >
     </View>
 
@@ -356,18 +340,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: '30%',
     left: '88%',
- 
-    zIndex:2,
+
+    zIndex: 2,
   },
-  
+
   MapStyleButtonView: {
     width: '15%',
     height: '10%',
     position: 'absolute',
     bottom: '50%',
     left: '88%',
- 
-    zIndex:2,
+
+    zIndex: 2,
   },
   RouteStyleButtonView: {
     width: '15%',
@@ -375,8 +359,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: '40%',
     left: '88%',
- 
-    zIndex:2,
+
+    zIndex: 2,
   },
 
 });
