@@ -38,7 +38,12 @@ export default function Navbar() {
              </NavLink>
            </li>
            <li className="nav-item">
-             <NavLink className="nav-link" to="/DataPoints/addPoint">
+             <NavLink className="nav-link" to="/addPoint">
+               Add DataPoint
+             </NavLink>
+           </li>
+           <li className="nav-item">
+             <NavLink className="nav-link" to="/datapointsList">
                Add DataPoint
              </NavLink>
            </li>
