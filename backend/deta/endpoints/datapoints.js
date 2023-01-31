@@ -6,7 +6,7 @@ const dbo = require("../db/conn");
 
 const ObjectId = require("mongodb").ObjectId;
 
-DataPoints.route("/api/allDataPoints").get(function (req, res) {
+DataPoints.route("/api/alldatapoints").get(function (req, res) {
   let db_connect = dbo.getDb();
   console.log(db_connect);
   db_connect
@@ -18,7 +18,7 @@ DataPoints.route("/api/allDataPoints").get(function (req, res) {
     });
 });
 
-DataPoints.route("/api/getDP/:title").get(function (req, res) {
+DataPoints.route("/api/getdp/:title").get(function (req, res) {
   let db_connect = dbo.getDb();
   let myquery = { title: (req.params.title) };
   db_connect
@@ -29,7 +29,7 @@ DataPoints.route("/api/getDP/:title").get(function (req, res) {
     });
 });
 
-DataPoints.route("/api/addDP/datapoint").post(function (req, res) {
+DataPoints.route("/api/add/datapoint").post(function (req, res) {
   let db_connect = dbo.getDb();
   let myobj = {
     title: req.body.title,

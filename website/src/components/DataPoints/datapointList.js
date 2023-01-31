@@ -28,7 +28,7 @@ export default function DataPointList() {
   useEffect(() => {
     async function getDataPoints() {
       console.log("Fetching dataPoints from server..." + API_URL);
-      const response = await fetch(API_URL + "/allDataPoints");
+      const response = await fetch(API_URL + "/alldataPoints");
 
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
@@ -49,7 +49,7 @@ export default function DataPointList() {
     getDataPoints();
 
     return;
-  }, [DataPoints]);
+  }, [dataPoints]);
 
   // This method will delete a dataPoint add api between 7000/api/delete
   async function deleteDataPoint(title) {
@@ -57,20 +57,20 @@ export default function DataPointList() {
       method: "DELETE"
     });
 
-    const newDataPoints = DataPoints.filter((el) => el.title !== title);
+    const newDataPoints = dataPoints.filter((el) => el.title !== title);
     setDataPoints(newDataPoints);
   }
 
   // This method will map out the dataPoints on the table
   function DataPointList() {
-    return DataPoints.map((DataPoint) => {
+    return dataPoints.map((dataPoint) => {
       return (
         <DataPoint
-          title={DataPoint.title}
-          description={DataPoint.description}
-          geolocation={DataPoint.geolocation}
-          deleteDataPoint={() => deleteDataPoint(DataPoint.title)}
-          key={DataPoint._id}
+          title={dataPoint.title}
+          description={dataPoint.description}
+          geolocation={dataPoint.geolocation}
+          deleteDataPoint={() => deleteDataPoint(dataPoint.title)}
+          key={dataPoint._id}
         />
       );
     });

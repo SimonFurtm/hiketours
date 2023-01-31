@@ -33,18 +33,8 @@ export default function Navbar() {
              </NavLink>
            </li>
            <li className="nav-item">
-             <NavLink className="nav-link" to="/addRoute">
-               Add Route
-             </NavLink>
-           </li>
-           <li className="nav-item">
-             <NavLink className="nav-link" to="/addPoint">
-               Add DataPoint
-             </NavLink>
-           </li>
-           <li className="nav-item">
-             <NavLink className="nav-link" to="/datapointsList">
-               Add DataPoint
+             <NavLink className="nav-link" to="/DataPoints/datapointList">
+               DataPointList
              </NavLink>
            </li>
          </ul>

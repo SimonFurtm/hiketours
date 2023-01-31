@@ -8,7 +8,6 @@ import Navbar from "./components/navbar";
 import RoutenList from "./components/routenList";
 import Edit from "./components/edit";
 import AddRoute from "./components/addRoute";
-import AddPoint from "./components/DataPoints/addPoint";
 import DataPointList from "./components/DataPoints/datapointList";
 import Footer from "./components/Footer";
 
@@ -20,7 +19,6 @@ const App = () => {
        <Route exact path="/" element={<RoutenList />} />
        <Route path="/edit" element={<Edit />} />
        <Route path="/addRoute" element={<AddRoute />} />
-       <Route exact path="/addPoint" element={<AddPoint />} />
        <Route path="/datapointList" element={<DataPointList />} />
      </Routes>
      <Footer/>
