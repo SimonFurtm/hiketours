@@ -2,8 +2,8 @@
   "name": "hiketours",
   "version": "1.0.0",
   "scripts": {
-    "build": "cd website && npm run build && cd ../backend && npm run build",
-    "start": "cd website && npm run start && cd ../backend && npm run start"
+    "build": "cd website && npm run build && cd ../backend/deta && npm run build",
+    "start": "cd website && npm run start && cd ../backend/deta && npm run start"
   },
   "private": true,
   "description": "",
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/SimonFurtm/hiketours/issues"
   },
-  "homepage": "https://github.com/SimonFurtm/hiketours#readme"
+  "homepage": "https://github.com/SimonFurtm/hiketours#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3"
+  }
 }
