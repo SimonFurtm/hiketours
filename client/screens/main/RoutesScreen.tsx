@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, ScrollView} from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 
 import EditScreenInfo from '../../components/organism/EditScreenInfo';
 import { Text, View } from '../../components/atoms/Themed';
 import { RootTabScreenProps } from '../../types';
-import { Button } from "@material-ui/core";
+import Colors from '../../constants/Colors';
+import useColorScheme from '../../hooks/useColorScheme';
 
 export default function RoutesScreen({ navigation }: RootTabScreenProps<'Routes'>) {
 
@@ -15,11 +16,11 @@ export default function RoutesScreen({ navigation }: RootTabScreenProps<'Routes'
   useEffect(() => {
     async function getRouten() {
       //console.log("Fetching routes from server...");
-      const response = await fetch(`http://192.168.0.28:7000/api/allroutes`);
+      const response = await fetch(`https://zk2ezn.deta.dev/api/allroutes`);
   
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
-        window.alert(message);
+        //window.alert(message);
         //setTimeout(getRouten, 1000);
         return;
       }
@@ -40,18 +41,17 @@ export default function RoutesScreen({ navigation }: RootTabScreenProps<'Routes'
 
   return (
     <View>
+      <Text style={styles.title}>Routen</Text>
+      <View style={styles.separator1} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <ScrollView style={styles.scrollView}>
-        <Text style={styles.title}>Routen</Text>
-        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+        
         {routen.map((route) => (
-          <>
+          <TouchableOpacity style={styles.card}>
             <Text style={styles.listTitle}>Name:</Text>
             <Text style={styles.list}>{route.name}</Text>
             <Text style={styles.listTitle}>Info:</Text>
             <Text style={styles.list}>{route.info}</Text>
-            <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-          </>
-          
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>
@@ -77,11 +77,38 @@ const styles = StyleSheet.create({
   list: {
     alignSelf: 'center',
     justifyContent: 'center',
+    textAlign: 'center'
   },
   listTitle: {
     fontWeight: 'bold',
     alignSelf: 'center',
     justifyContent: 'center',
+  },
+  card: {
+    padding: 20,
+    backgroundColor: Colors.dark.secondaryDark,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    margin: 10,
+  },
+  separator1: {
+    marginTop: 10,
+    height: 1,
+    width: '100%',
+    alignSelf: 'center',
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 10
+    },
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    elevation: 20
   },
   separator: {
     marginVertical: 30,

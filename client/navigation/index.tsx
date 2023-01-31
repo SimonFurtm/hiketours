@@ -84,7 +84,7 @@ function BottomTabNavigator() {
         component={RoutesScreen}
         options={{
           title: 'Routen',
-          color: Colors[colorScheme].tint,
+          color: Colors[colorScheme].warn,
           tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
         }}
       />

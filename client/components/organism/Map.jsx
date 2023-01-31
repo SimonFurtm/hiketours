@@ -75,7 +75,7 @@ export default function Map() {
 
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
-        window.alert(message);
+        //window.alert(message);
         return;
       }
 
@@ -223,7 +223,7 @@ export default function Map() {
         mapType={mapStyle}
         region={Bischofshofen}
         provider="google"
-        onUserLocationChange={setCustomRoute()}
+        //onUserLocationChange={setCustomRoute()}
       >
 
         {/*Map all routes from the database*/}
@@ -256,12 +256,12 @@ export default function Map() {
           //Open a popup window and send the name of the route to the popup
           onPress={() => handleGeoJsonPress(Erzweg)}
         />
-        {/*Draw the current route that the user is tracking*/}
+        {/*Draw the current route that the user is tracking
         <Polyline
           coordinates={customRoute}
           strokeColor="red"
           strokeWidth={2}
-        />
+        />*/}
       </MapView >
     </View>
 
