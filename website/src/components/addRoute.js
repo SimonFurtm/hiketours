@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from 'axios';
 
-const API_URL = 'http://localhost:7000';
+const API_URL = 'https://zk2ezn.deta.dev/api';
 
 
 export default function AddRoute() {

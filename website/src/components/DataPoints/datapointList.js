@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const API_URL = 'https://zk2ezn.deta.dev/api';
+const API_URL = "https://zk2ezn.deta.dev/api";
 
 const DataPoint = (props) => (
   <tr>
     <td>{props.title}</td>
-    <td>{props.describtion}</td>
+    <td>{props.description}</td>
     <td>{props.geolocation}</td>
     <td>
       <Link className="btn btn-link" to={`/edit`}>Edit</Link> |
@@ -27,8 +27,8 @@ export default function DataPointList() {
   // This method fetches the dataPoints from the database.
   useEffect(() => {
     async function getDataPoints() {
-      console.log("Fetching dataPoints from server...");
-      const response = await fetch(API_URL + `/allDataPoints`);
+      console.log("Fetching dataPoints from server..." + API_URL);
+      const response = await fetch(API_URL + "/allDataPoints");
 
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
@@ -37,6 +37,7 @@ export default function DataPointList() {
       }
 
       const data = await response.json();
+      console.log(data);
       if (Array.isArray(data)) {
         console.log("Fetched dataPoints:", data);
         setDataPoints(data);
@@ -48,27 +49,28 @@ export default function DataPointList() {
     getDataPoints();
 
     return;
-  }, [dataPoints]);
+  }, [DataPoints]);
 
   // This method will delete a dataPoint add api between 7000/api/delete
-  async function deleteDataPoint(name) {
-    await fetch(API_URL + `/delete/${name}`, {
+  async function deleteDataPoint(title) {
+    await fetch(`${API_URL}/delete/${title}`, {
       method: "DELETE"
     });
 
-    const newDataPoint = dataPoints.filter((el) => el.name !== name);
-    setDataPoints(newDataPoint);
+    const newDataPoints = DataPoints.filter((el) => el.title !== title);
+    setDataPoints(newDataPoints);
   }
 
   // This method will map out the dataPoints on the table
-  function dataPointsList() {
-    return dataPoints.map((dataPoint) => {
+  function DataPointList() {
+    return DataPoints.map((DataPoint) => {
       return (
         <DataPoint
-          name={dataPoint.name}
-          info={dataPoint.info}
-          deleteDataPoint={() => deleteDataPoint(dataPoint.name)}
-          key={dataPoint._id}
+          title={DataPoint.title}
+          description={DataPoint.description}
+          geolocation={DataPoint.geolocation}
+          deleteDataPoint={() => deleteDataPoint(DataPoint.title)}
+          key={DataPoint._id}
         />
       );
     });
@@ -77,17 +79,17 @@ export default function DataPointList() {
   // This following section will display the table with the dataPoints.
   return (
     <div>
-      <h3>Data Point List</h3>
+      <h3>DataPoint List</h3>
       <table className="table table-striped" style={{ marginTop: 20 }}>
         <thead>
           <tr>
             <th>Title</th>
-            <th>describtion</th>
-            <th>location</th>
+            <th>Description</th>
+            <th>Geolocation</th>
           </tr>
         </thead>
-        <tbody>{}</tbody>
-      </table>
-    </div>
-  );
+        <tbody>{DataPointList()}</tbody>
+     </table>
+   </div>
+ );
 }

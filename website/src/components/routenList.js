@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
- 
-const API_URL = process.env.API_URL ;
+
+const API_URL = "https://zk2ezn.deta.dev/api";
 
 const Routen = (props) => (
  <tr>
@@ -27,7 +27,7 @@ export default function RoutenList() {
  useEffect(() => {
    async function getRouten() {
      console.log("Fetching routes from server..."+ API_URL);
-     const response = await fetch(API_URL + "/api/allroutes");
+     const response = await fetch(API_URL + "/allroutes");
   
      if (!response.ok) {
        const message = `An error occurred: ${response.statusText}`;

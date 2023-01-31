@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/SimonFurtm/hiketours#readme",
   "dependencies": {
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "react-scripts": "^5.0.1"
   }
 }
