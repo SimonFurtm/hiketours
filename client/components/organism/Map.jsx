@@ -68,7 +68,7 @@ export default function Map() {
     //fetch DB Data
     async function getRoutes() {
       //console.log("Fetching routes from server...");
-      const response = await fetch(`http://localhost:7000/api/allroutes`);
+      const response = await fetch(`http://192.168.0.28:7000/api/allroutes`);
 
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
@@ -101,7 +101,7 @@ export default function Map() {
     }
   }
 
-  const nextRout = () => {
+  const nextRoute = () => {
     if (routes != null) {
       () => getRouten();
       console.log("Getting Data");
@@ -156,15 +156,18 @@ export default function Map() {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>{currGeojson.name}</Text>
-            <Text style={styles.modalText}>{currGeojson.name}</Text>
-
-
+            <Text style={styles.modalText}>{currGeojson.info}</Text>
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
-
               onPress={() => setModalVisible(false)}
             >
-              <Text style={styles.textStyle}>Hide Modal</Text>
+              <Text style={styles.textStyle}>Tracking starten</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.textStyle}>Schließen</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -182,7 +185,7 @@ export default function Map() {
       </TouchableOpacity>
       
       {/*Adds a Button that moves to your location when pressed*/}
-      <TouchableOpacity style={[styles.RouteStyleButtonView]}onPress={nextRout}>
+      <TouchableOpacity style={[styles.RouteStyleButtonView]}onPress={nextRoute}>
         <AntDesign
           style={styles.locationButtonImage} 
           name="forward"

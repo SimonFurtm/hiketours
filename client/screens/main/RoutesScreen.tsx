@@ -20,6 +20,7 @@ export default function RoutesScreen({ navigation }: RootTabScreenProps<'Routes'
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
         window.alert(message);
+        //setTimeout(getRouten, 1000);
         return;
       }
 
@@ -38,20 +39,22 @@ export default function RoutesScreen({ navigation }: RootTabScreenProps<'Routes'
   }, [routen]);
 
   return (
-    <ScrollView style={styles.scrollView}>
-      <Text style={styles.title}>Routen</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      {routen.map((route) => (
-        <>
-          <Text style={styles.listTitle}>Name:</Text>
-          <Text style={styles.list}>{route.name}</Text>
-          <Text style={styles.listTitle}>Info:</Text>
-          <Text style={styles.list}>{route.info}</Text>
-          <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-        </>
-        
-      ))}
-    </ScrollView>
+    <View>
+      <ScrollView style={styles.scrollView}>
+        <Text style={styles.title}>Routen</Text>
+        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+        {routen.map((route) => (
+          <>
+            <Text style={styles.listTitle}>Name:</Text>
+            <Text style={styles.list}>{route.name}</Text>
+            <Text style={styles.listTitle}>Info:</Text>
+            <Text style={styles.list}>{route.info}</Text>
+            <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+          </>
+          
+        ))}
+      </ScrollView>
+    </View>
   );
 }
 
