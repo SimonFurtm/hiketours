@@ -41,9 +41,11 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const colorScheme = useColorScheme();
+
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false}} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal'}}> 
         <Stack.Screen name="Help" component={HelpScreen} />
@@ -65,21 +67,24 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarActiveTintColor: Colors[colorScheme].primary,
+        tabBarActiveBackgroundColor: Colors[colorScheme].secondaryDark,
+        tabBarInactiveBackgroundColor: Colors[colorScheme].secondaryDark,
       }}>
-        <BottomTab.Screen
+      {/*<BottomTab.Screen
         name="Info"
         component={InfoScreen}
         options={{
           title: 'Infos',
           tabBarIcon: ({ color }) => <TabBarIcon name="info-circle" color={color} />,
         }}
-      />
+      />*/}
       <BottomTab.Screen
         name="Routes"
         component={RoutesScreen}
         options={{
           title: 'Routen',
+          color: Colors[colorScheme].warn,
           tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
         }}
       />
@@ -96,15 +101,17 @@ function BottomTabNavigator() {
                 opacity: pressed ? 0.5 : 1,
               })}>
               <FontAwesome
-                name="question-circle"
+                name="info-circle"
                 size={25}
-                color={Colors[colorScheme].text}
+                color={Colors[colorScheme].primary}
+                //useThemeColor({ light: lightColor, dark: darkColor }, 'primary')
                 style={{ marginRight: 15 }}
               />
             </Pressable>
           ),
         })}
       />
+      {/*
       <BottomTab.Screen
         name="Search"
         component={SearchScreen}
@@ -112,7 +119,7 @@ function BottomTabNavigator() {
           title: 'Search',
           tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
         }}
-      />
+      />*/}
       <BottomTab.Screen
         name="Profile"
         component={ProfileScreen}
