@@ -8,7 +8,7 @@ const ObjectId = require("mongodb").ObjectId;
 
 DataPoints.route("/api/alldatapoints").get(function (req, res) {
   let db_connect = dbo.getDb();
-  console.log(db_connect);
+  if (!db_connect) return res.json({ message: "Database connection could not be established!" });
   db_connect
     .collection("DataPoints")
     .find({})
@@ -20,6 +20,7 @@ DataPoints.route("/api/alldatapoints").get(function (req, res) {
 
 DataPoints.route("/api/getdp/:title").get(function (req, res) {
   let db_connect = dbo.getDb();
+  if (!db_connect) return res.json({ message: "Database connection could not be established" });
   let myquery = { title: (req.params.title) };
   db_connect
     .collection("DataPoints")
@@ -31,9 +32,10 @@ DataPoints.route("/api/getdp/:title").get(function (req, res) {
 
 DataPoints.route("/api/add/datapoint").post(function (req, res) {
   let db_connect = dbo.getDb();
+  if (!db_connect) return res.json({ message: "Database connection could not be established" });
   let myobj = {
     title: req.body.title,
-    describtion: req.body.describtion,
+    description: req.body.description,
     geolocation: req.body.geolocation
   };
   db_connect.collection("DataPoints").insertOne(myobj, function (err, result) {
@@ -44,6 +46,7 @@ DataPoints.route("/api/add/datapoint").post(function (req, res) {
 
 DataPoints.route("/api/updateDP/:title").patch(function (req, response) {
   let db_connect = dbo.getDb();
+  if (!db_connect) return response.json({ message: "Database connection could not be established" });
   let myquery = { title: (req.params.title) };
 
   if (Object.keys(req.body).length === 0) {
@@ -51,8 +54,8 @@ DataPoints.route("/api/updateDP/:title").patch(function (req, response) {
   }
 
   let newvalues = { $set: {} };
-  if (req.body.describtion) {
-    newvalues.$set.describtion = req.body.describtion;
+  if (req.body.description) {
+    newvalues.$set.description = req.body.description;
   }
   if (req.body.geolocation) {
     newvalues.$set.geolocation = req.body.geolocation;

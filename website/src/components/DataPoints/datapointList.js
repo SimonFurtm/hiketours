@@ -9,7 +9,7 @@ const DataPoint = (props) => (
     <td>{props.description}</td>
     <td>{props.geolocation}</td>
     <td>
-      <Link className="btn btn-link" to={`/edit`}>Edit</Link> |
+      <Link className="btn btn-link" to={`/editPoint`}>Edit</Link> |
       <button className="btn btn-link"
         onClick={() => {
           props.deleteDataPoint(props.title);
@@ -27,6 +27,14 @@ export default function DataPointList() {
   // This method fetches the dataPoints from the database.
   useEffect(() => {
     async function getDataPoints() {
+
+      console.log("Fetching routes from cache...");
+      let data2 = localStorage.getItem("datapoints");
+      if (data2) {
+        console.log("Fetched routes from cache:", JSON.parse(data2));
+        setDataPoints(JSON.parse(data2));
+        return;
+      }
       console.log("Fetching dataPoints from server..." + API_URL);
       const response = await fetch(API_URL + "/alldataPoints");
 
@@ -49,7 +57,7 @@ export default function DataPointList() {
     getDataPoints();
 
     return;
-  }, [dataPoints]);
+  }, []);
 
   // This method will delete a dataPoint add api between 7000/api/delete
   async function deleteDataPoint(title) {

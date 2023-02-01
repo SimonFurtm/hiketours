@@ -9,6 +9,8 @@ import RoutenList from "./components/routenList";
 import Edit from "./components/edit";
 import AddRoute from "./components/addRoute";
 import DataPointList from "./components/DataPoints/datapointList";
+import AddPoint from "./components/DataPoints/addDataPoint";
+import EditPoint from "./components/DataPoints/editPoint";
 import Footer from "./components/Footer";
 
 const App = () => {
@@ -18,8 +20,10 @@ const App = () => {
      <Routes>
        <Route exact path="/" element={<RoutenList />} />
        <Route path="/edit" element={<Edit />} />
+       <Route path="/editPoint" element={<EditPoint />} />
        <Route path="/addRoute" element={<AddRoute />} />
-       <Route path="/datapointList" element={<DataPointList />} />
+       <Route path="/datapoints" element={<DataPointList />} />
+       <Route path="/addPoint" element={<AddPoint />} />
      </Routes>
      <Footer/>
    </div>

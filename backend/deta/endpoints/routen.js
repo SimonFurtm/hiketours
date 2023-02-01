@@ -25,7 +25,7 @@ Routes.route("/api/allroutes").get(function (req, res) {
 });
 
 // This section will help you get a single routes by name
-Routes.route("/api/getroute/:name").get(function (req, res) {
+Routes.route("/api/get/route/:name").get(function (req, res) {
   let db_connect = dbo.getDb();
   let myquery = { name: (req.params.name) };
   db_connect
@@ -53,7 +53,7 @@ Routes.route("/api/add/route").post(function (req, res) {
 });
 
 // This section will help you update a route by name.
-Routes.route("/api/updateroute/:name").patch(function (req, response) {
+Routes.route("/api/update/route/:name").patch(function (req, response) {
   let db_connect = dbo.getDb();
   let myquery = { name: (req.params.name) };
 
@@ -89,7 +89,7 @@ Routes.route("/api/updateroute/:name").patch(function (req, response) {
 
 
 // This section will help you delete a route
-Routes.route("/api/deleteroute/:name").delete((req, response) => {
+Routes.route("/api/delete/route/:name").delete((req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { name: (req.params.name) };
   db_connect.collection("Routen").deleteOne
