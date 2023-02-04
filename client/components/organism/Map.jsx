@@ -66,12 +66,16 @@ export default function Map() {
       setLocation(location);
       setPinRed({ latitude: location.coords.latitude, longitude: location.coords.longitude })
       setLastLocation(lastLocation);
+      getRoutes();
     })();
+    return;
+  }, [routes]);
 
     //fetch DB Data
     async function getRoutes() {
       //console.log("Fetching routes from server...");
       const response = await fetch(`https://zk2ezn.deta.dev/api/allroutes`);
+      console.log("test");
 
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
@@ -87,12 +91,9 @@ export default function Map() {
         console.error("Received non-array data from server:", data);
       }
     }
-    getRoutes();
-    return;
-  }, [routes]);
 
 
-  const moveToLocation = () => {
+  function moveToLocation() {
     if (location != null) {
       console.log("moving to location");
       mapRef.current.animateToRegion({
@@ -124,8 +125,6 @@ export default function Map() {
   };
 
   const changeMapStyle = () => {
-    //change x every third time
-    console.log(count);
     if (count == 1) {
       setMapStyle("satellite");
       setCount(2);
@@ -145,15 +144,22 @@ export default function Map() {
   }
 
   const trackUserRoute = () => {
+    moveToLocation();
     
+  }
+
+  const StartRoute = () => {
+    setModalVisible(false);
+    moveToLocation();
   }
 
 
   return (
     <View>
+
       {/*Popup window when clicking on GeoJson path using a Modal*/}
       <Modal
-        animationType="fade"
+        animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -168,7 +174,7 @@ export default function Map() {
             {/*Button to start the route*/}
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(false)}
+              onPress={StartRoute}
             >
               <Text style={styles.textStyle}>Weg starten</Text>
             </TouchableOpacity>
@@ -195,7 +201,7 @@ export default function Map() {
       </TouchableOpacity>
 
       {/*I woas immano ned wos des mocht Simon*/}
-      <TouchableOpacity style={[styles.RouteStyleButtonView]} onPress={nextRoute}>
+      <TouchableOpacity style={[styles.RouteStyleButtonView]} onPress={trackUserRoute}>
         <AntDesign
           style={styles.locationButtonImage}
           name="forward"
@@ -223,12 +229,14 @@ export default function Map() {
         mapType={mapStyle}
         region={Bischofshofen}
         provider="google"
+        showsPointsOfInterest={false}
         //onUserLocationChange={setCustomRoute()}
       >
 
         {/*Map all routes from the database*/}
         {routes.map((route) => (
           <Geojson
+            key={route.id}
             tappable
             geojson={route}
             strokeColor="blue"
