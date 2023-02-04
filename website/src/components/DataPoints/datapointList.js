@@ -36,7 +36,7 @@ export default function DataPointList() {
         return;
       }
       console.log("Fetching dataPoints from server..." + API_URL);
-      const response = await fetch(API_URL + "/alldataPoints");
+      const response = await fetch(API_URL + "/alldatapoints");
 
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;

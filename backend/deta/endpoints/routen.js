@@ -19,7 +19,7 @@ Routes.route("/api/allroutes").get(function (req, res) {
     .collection("Routen")
     .find({})
     .toArray(function (err, result) {
-      if (err) throw err;
+      if (err)throw err;    
       res.json(result);
     });
 });

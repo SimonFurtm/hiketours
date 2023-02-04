@@ -12,6 +12,7 @@ import DataPointList from "./components/DataPoints/datapointList";
 import AddPoint from "./components/DataPoints/addDataPoint";
 import EditPoint from "./components/DataPoints/editPoint";
 import Footer from "./components/Footer";
+import Login from "./components/Auth/Login"
 
 const App = () => {
  return (
@@ -24,6 +25,7 @@ const App = () => {
        <Route path="/addRoute" element={<AddRoute />} />
        <Route path="/datapoints" element={<DataPointList />} />
        <Route path="/addPoint" element={<AddPoint />} />
+       <Route path="/login" element={<Login />} />
      </Routes>
      <Footer/>
    </div>
