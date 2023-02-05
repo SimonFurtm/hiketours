@@ -36,11 +36,13 @@ const Login = () => {
 
   return (
     <form onSubmit={handleLogin}>
+      <label htmlFor="username">Name</label>
       <input
         type="username"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
+      <label htmlFor="password">Passwort</label>
       <input
         type="password"
         value={passwort}

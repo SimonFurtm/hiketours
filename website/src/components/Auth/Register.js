@@ -23,6 +23,7 @@ function RegisterForm() {
   };
 
   return (
+    <div>
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="username">Username:</label>
@@ -44,6 +45,7 @@ function RegisterForm() {
       </div>
       <button type="submit">Register</button>
     </form>
+    </div>
   );
 }
 

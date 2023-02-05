@@ -38,7 +38,7 @@ const App = () => (
         <Route path="/register" element={<Register />} />
       </Routes>
     </AuthProvider>
-    <Footer />
+    <Footer></Footer>
   </div>
 );
 
