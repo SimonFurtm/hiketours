@@ -1,8 +1,9 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import MapView, { Geojson } from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Modal } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Modal, Button } from 'react-native';
 import * as Location from 'expo-location';
 import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 
 
@@ -15,6 +16,7 @@ export default function Map() {
   const [currGeojson, setCurrGeojson] = useState("");
   const [customRoute, setCustomRoute] = useState([]);
   const [isTracking, setIsTracking] = useState(false);
+  const [status, requestPermission] = Location.useForegroundPermissions();
 
   const Bischofshofen = {
     latitude: 47.41545773037797,
@@ -34,31 +36,62 @@ export default function Map() {
         setErrorMsg('Permission to access location was denied');
         return;
       }
+    })();
+  }, []);
 
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+    })();
+  }, []);
+  
+  useEffect(() => {
+    (async () => {
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
-
-      if (isTracking) {
-        const watchId = Location.watchPositionAsync({
-          accuracy: Location.Accuracy.High,
-          timeInterval: 1000,
-          distanceInterval: 1
-        }, location => {
-          setCustomRoute(customRoute => [...customRoute, location.coords]);
-        }
-        );
-        return () => Location.clearWatch(watchId);
-      }
-
-      getRoutes();
     })();
-    return
+  }, []);
+
+  const[tracker, setTracker] = useState(null);
+  
+  useEffect(() => {
+    (async () => {
+  
+    if (isTracking) {
+      console.log("Tracking started");
+        setTracker(Location.watchPositionAsync({
+          enableHighAccuracy: true,
+        distanceInterval: 1
+      }, location => {
+        setCustomRoute(customRoute => [...customRoute, location.coords]);
+      }));
+    }
+    if(!isTracking) {
+      console.log("test");
+    }
+    
+    if(!isTracking) {
+      console.log("Tracking stopped");
+      await tracker.remove();
+    }
+  })();
+    
   }, [isTracking]);
+  
+  useEffect(() => {
+    getRoutes();
+  }, []);
+  
 
 
 
   //fetch DB Data
   async function getRoutes() {
+    
     console.log("Fetching routes from server...");
     const response = await fetch(`https://zk2ezn.deta.dev/api/allroutes`);
 
@@ -119,16 +152,16 @@ export default function Map() {
     }
   }
 
-  const trackUserRoute = () => {
-    setIsTracking(!isTracking);
-    console.log(isTracking);
+  const handleStartTracking = () => {
+    setIsTracking(true);
     moveToLocation();
 
   }
 
-  const StartRoute = () => {
-    setModalVisible(false);
+  const handleStopTracking = () => {
+    setIsTracking(false);
     moveToLocation();
+
   }
 
   return (
@@ -149,7 +182,7 @@ export default function Map() {
             <Text style={styles.modalText}>{currGeojson.info}</Text>
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
-              onPress={StartRoute}
+              onPress={moveToLocation}
             >
               <Text style={styles.textStyle}>Weg starten</Text>
             </TouchableOpacity>
@@ -173,8 +206,7 @@ export default function Map() {
         />
       </TouchableOpacity>
 
-      {/*I woas immano ned wos des mocht Simon*/}
-      <TouchableOpacity style={[styles.RouteStyleButtonView]} onPress={trackUserRoute}>
+      <TouchableOpacity style={[styles.RouteStyleButtonView]} onPress={handleStartTracking}>
         <AntDesign
           style={styles.locationButtonImage}
           name="forward"
@@ -182,7 +214,7 @@ export default function Map() {
           color="white"
         />
       </TouchableOpacity>
-
+  
       {/*Adds a Button that changes the map type (satelite, hightmap, etc...)*/}
       <TouchableOpacity
         style={styles.MapStyleButtonView}
@@ -196,6 +228,27 @@ export default function Map() {
         />
       </TouchableOpacity>
 
+     
+      
+      {isTracking && (
+        <TouchableOpacity style={styles.StopTrackingButton} onPress={handleStopTracking}>
+        <FontAwesome5 name="stop" size={40} color="white"/>
+      </TouchableOpacity>
+      )}
+     
+      {!isTracking && (
+        <TouchableOpacity style={{width: '15%',
+        height: '10%',
+        position: 'absolute',
+        bottom: '60%',
+        left: '20%',
+    
+        zIndex: 2,}}>
+          <FontAwesome5 name="pause" size={40} color="white"/>
+          </TouchableOpacity>
+      )}
+
+
       <MapView style={styles.map}
         showsUserLocation={true}
         ref={mapRef}
@@ -203,7 +256,6 @@ export default function Map() {
         region={Bischofshofen}
         provider="google"
         showsPointsOfInterest={false}
-      //onUserLocationChange={setCustomRoute()}
       >
 
         {/*Map all routes from the database*/}
@@ -338,6 +390,24 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: '40%',
     left: '88%',
+
+    zIndex: 2,
+  },
+  StopTrackingButton: {
+    width: '15%',
+    height: '10%',
+    position: 'absolute',
+    bottom: '40%',
+    left: '10%',
+
+    zIndex: 2,
+  },
+  PauseTrackingButton: {
+    width: '15%',
+    height: '10%',
+    position: 'absolute',
+    bottom: '40%',
+    left: '20%',
 
     zIndex: 2,
   },

@@ -20,14 +20,24 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "at.hiketours.client"
+      "bundleIdentifier": "at.hiketours.client",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app needs access to location when open.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app needs access to location always and when open.",
+        "NSLocationAlwaysUsageDescription": "This app needs access to location always.",
+        "NSLocation*UsageDescription": "This app needs access to location."
+      }
     },
     "android": {
       "package": "at.hiketours.client",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
