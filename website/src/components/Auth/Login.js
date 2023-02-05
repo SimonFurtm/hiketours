@@ -1,22 +1,36 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState,useContext } from "react";
+import { useNavigate } from "react-router-dom";//Redirect User after Login
+import { AuthContext }from "./AuthStatus/User";
 
-const API_URL = 'https://zk2ezn.deta.dev/api';
+const API_URL = "https://zk2ezn.deta.dev/api";
 
 const Login = () => {
-  const [username, setName] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [passwort, setPassword] = useState("");
+  const { setUser } = useContext(AuthContext);
 
-  const handleLogin = async () => {
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
-      const res = await axios.post(API_URL+'/login', { username, password });
-      if (res.data.success) {
+      const res = await fetch(API_URL + "/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username: name, password: passwort }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setUser({ username: name});
         console.log("it worked");
+        navigate("/");
       } else {
         console.log("faild as usual");
       }
     } catch (error) {
-      // Handle error
+      throw new Error(error);
     }
   };
 
@@ -24,13 +38,13 @@ const Login = () => {
     <form onSubmit={handleLogin}>
       <input
         type="username"
-        value={username}
-        onChange={e => setName(e.target.value)}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
       />
       <input
         type="password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
+        value={passwort}
+        onChange={(e) => setPassword(e.target.value)}
       />
       <button type="submit">Login</button>
     </form>
