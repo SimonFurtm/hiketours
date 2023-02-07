@@ -12,7 +12,7 @@ export default {
     secondaryAccent : '#85CEEA',
     warn: '#ff7847',
 
-    tint: tintColorDark,
+    tint: tintColorLight,
     tabIconDefault: '#ff7847',
     tabIconSelected: tintColorDark,
   },
@@ -24,7 +24,7 @@ export default {
     secondaryAccent: '#85CEEA',
     warn: '#ff7847',
     
-    tint: tintColorDark,
+    tint: tintColorLight,
     tabIconDefault: '#ff7847',
     tabIconSelected: tintColorDark,
   },
