@@ -17,6 +17,7 @@ export default function Map() {
   const [customRoute, setCustomRoute] = useState([]);
   const [isTracking, setIsTracking] = useState(false);
   const [status, requestPermission] = Location.useForegroundPermissions();
+  const [watcher, setWatcher] = useState(null);
 
   const Bischofshofen = {
     latitude: 47.41545773037797,
@@ -48,56 +49,52 @@ export default function Map() {
       }
     })();
   }, []);
-  
+
   useEffect(() => {
     (async () => {
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
+      console.log("Location updated successfully");
     })();
   }, []);
 
-  const[tracker, setTracker] = useState(null);
-  
   useEffect(() => {
     (async () => {
-  
-    if (isTracking) {
-      console.log("Tracking started");
-        setTracker(Location.watchPositionAsync({
+      
+      if (isTracking) {
+        Location.watchPositionAsync({
           enableHighAccuracy: true,
-        distanceInterval: 1
-      }, location => {
-        setCustomRoute(customRoute => [...customRoute, location.coords]);
-      }));
-    }
-    if(!isTracking) {
-      console.log("test");
-    }
-    
-    if(!isTracking) {
-      console.log("Tracking stopped");
-      await tracker.remove();
-    }
-  })();
-    
+          distanceInterval: 1
+        }, location => {
+          setCustomRoute(customRoute => [...customRoute, location.coords]);
+          setLocation(location);
+        }).then((locationWatcher) => {
+          setWatcher(locationWatcher);
+        }).catch((err) => {
+          console.log(err)
+        })
+      }
+    })();
+
   }, [isTracking]);
-  
+
   useEffect(() => {
     getRoutes();
   }, []);
-  
+
 
 
 
   //fetch DB Data
   async function getRoutes() {
-    
+
     console.log("Fetching routes from server...");
     const response = await fetch(`https://zk2ezn.deta.dev/api/allroutes`);
 
     if (!response.ok) {
       const message = `An error occurred: ${response.statusText}`;
       window.alert(message);
+      getRoutes();
       return;
     }
 
@@ -153,12 +150,15 @@ export default function Map() {
   }
 
   const handleStartTracking = () => {
+    console.log("watcher started");
     setIsTracking(true);
     moveToLocation();
 
   }
 
   const handleStopTracking = () => {
+    console.log("watcher stopped");
+    watcher.remove();
     setIsTracking(false);
     moveToLocation();
 
@@ -206,15 +206,19 @@ export default function Map() {
         />
       </TouchableOpacity>
 
+
+      {/*Start to track your own custom route*/}
+      {!isTracking && (
       <TouchableOpacity style={[styles.RouteStyleButtonView]} onPress={handleStartTracking}>
         <AntDesign
           style={styles.locationButtonImage}
-          name="forward"
+          name="play"
           size={40}
           color="white"
         />
       </TouchableOpacity>
-  
+      )}
+
       {/*Adds a Button that changes the map type (satelite, hightmap, etc...)*/}
       <TouchableOpacity
         style={styles.MapStyleButtonView}
@@ -228,26 +232,12 @@ export default function Map() {
         />
       </TouchableOpacity>
 
-     
-      
+      {/*Stops tracking your custom route and prompts you to discard or save*/}
       {isTracking && (
-        <TouchableOpacity style={styles.StopTrackingButton} onPress={handleStopTracking}>
-        <FontAwesome5 name="stop" size={40} color="white"/>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.RouteStyleButtonView} onPress={handleStopTracking}>
+          <FontAwesome5 name="stop" size={40} color="white" />
+        </TouchableOpacity>
       )}
-     
-      {!isTracking && (
-        <TouchableOpacity style={{width: '15%',
-        height: '10%',
-        position: 'absolute',
-        bottom: '60%',
-        left: '20%',
-    
-        zIndex: 2,}}>
-          <FontAwesome5 name="pause" size={40} color="white"/>
-          </TouchableOpacity>
-      )}
-
 
       <MapView style={styles.map}
         showsUserLocation={true}
@@ -273,24 +263,24 @@ export default function Map() {
 
         {customRoute.length > 0 && (
           <Geojson
-          geojson={{
-            type: "FeatureCollection",
-            features: [
-              {
-                type: "Feature",
-                properties: {},
-                geometry: {
-                  type: "MultiLineString",
-                  coordinates: [
-                    customRoute.map((coords) => [coords.longitude, coords.latitude]),
-                  ],
+            geojson={{
+              type: "FeatureCollection",
+              features: [
+                {
+                  type: "Feature",
+                  properties: {},
+                  geometry: {
+                    type: "MultiLineString",
+                    coordinates: [
+                      customRoute.map((coords) => [coords.longitude, coords.latitude]),
+                    ],
+                  },
                 },
-              },
-            ],
-          }}
-          strokeColor="blue"
+              ],
+            }}
+            strokeColor="blue"
             strokeWidth={2}
-        />
+          />
         )}
 
       </MapView >

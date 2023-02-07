@@ -14,7 +14,6 @@ export default function ProfileScreen({ navigation }: RootTabScreenProps<'Profil
     <View style={styles.container}>
       <Text style={styles.title}>Profil</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Button> style={styles.container}</Button>
       <Login />
     </View>
   );
