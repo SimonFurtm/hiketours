@@ -7,8 +7,9 @@ const API_URL = "https://zk2ezn.deta.dev/api";
 export default function AddDataPoint() {
   const [form, setForm] = useState({
     type: "",
+    title: "",
     coordinate: {
-      latitude : "",
+      latitude: "",
       longitude: "",
     },
     details: [{ name: "", info: "" }],
@@ -26,8 +27,11 @@ export default function AddDataPoint() {
 
     const newDataPoint = {
       type: form.type,
-      latitude : form.latitude ,
-      longitude: form.longitude,
+      title: form.title,
+      coordinate:{
+        latitude: form.latitude,
+        longitude: form.longitude,
+      },
       details: [...form.details],
     };
 
@@ -38,8 +42,9 @@ export default function AddDataPoint() {
 
     setForm({
       type: "",
-      latitude : "", 
-      longitude: "" ,
+      title: "",
+      latitude: "",
+      longitude: "",
       details: [{ name: "", info: "" }],
     });
     navigate("/datapoints");
@@ -48,8 +53,11 @@ export default function AddDataPoint() {
   return (
     <div>
       <h3 className="Center-heading">Add New Data Point</h3>
+
       <form onSubmit={onSubmit}>
+
         <div className="form-group">
+
           <label htmlFor="type">Type</label>
           <input
             type="text"
@@ -58,14 +66,23 @@ export default function AddDataPoint() {
             value={form.type}
             onChange={(e) => updateForm("type", e.target.value)}
           />
+
+          <label htmlFor="title">Title</label>
+          <input
+            type="text"
+            className="form-control"
+            id="title"
+            value={form.title}
+            onChange={(e) => updateForm("title", e.target.value)}
+          />
+
           <label htmlFor="latitude ">latitude </label>
           <input
             type="number"
             className="form-control"
             id="latitude "
-            value={form.latitude }
-            onChange={(e) =>
-              updateForm("latitude",e.target.value)}
+            value={form.latitude}
+            onChange={(e) => updateForm("latitude", e.target.value)}
           />
           <label htmlFor="longitude">longitude</label>
           <input
@@ -73,8 +90,7 @@ export default function AddDataPoint() {
             className="form-control"
             id="longitude"
             value={form.longitude}
-            onChange={(e) =>
-              updateForm("longitude",e.target.value,)}
+            onChange={(e) => updateForm("longitude", e.target.value)}
           />
           <label htmlFor="details">Details</label>
           {form.details.map((detail, index) => (

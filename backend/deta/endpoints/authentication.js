@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
@@ -9,10 +8,21 @@ const dbo = require("../db/conn");
 
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
-
+const cors = require('cors');
 const auth = express.Router();
 
-auth.use(cors());
+auth.use(cors);
+
+auth.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+    return res.status(200).json("Everythings going well. :)");
+  }
+  next();
+});
+
 auth.use(bodyParser.json());
 
 auth.post('/api/login', async (req, res) => {
@@ -55,13 +65,25 @@ auth.post('/api/register', async (req, res) => {
 
     const newUser = { username:username, password: hashedPassword };
 
+
+    const user = await db.collection('users').findOne({username});
+
+    if (user) {
+      return res.status(401).send({
+        success: false,
+        message: 'Username already in use',
+      });
+    }
+
     const result = await db.collection('users').insertOne(newUser);
 
     console.log(result);
+    
     res.status(201).send({
       success: true,
       message: 'User registered successfully',
     });
+
   } catch (error) {
     res.status(500).send({
       success: false,

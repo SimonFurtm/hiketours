@@ -1,7 +1,20 @@
 const express = require("express");
 const Routes = express.Router();
 const dbo = require("../db/conn");
+const cors = require('cors');
 //const ObjectId = require("mongodb").ObjectId;
+
+Routes.use(cors());
+
+Routes.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+    return res.status(200).json("Everythings going well. :)");
+  }
+  next();
+});
 
 Routes.route("/api/allroutes").get(function (req, res) {
   let db_connect = dbo.getDb();

@@ -9,15 +9,19 @@ export default function AddRoute() {
   const [form, setForm] = useState({
     file: null,
     info: "",
+
     sportColor:"",
     sportKeywords:"",
     sportAddition:"",
+
     tourismusColor:"",
     tourismusKeywords:"",
     tourismusAddition:"",
+
     kinderColor:"",
     kinderKeywords:"",
-    kinderAddition:""
+    kinderAddition:""/*,
+    verified:""*/
   });
 
   const navigate = useNavigate();

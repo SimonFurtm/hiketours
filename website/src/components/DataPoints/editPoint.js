@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = 'https://zk2ezn.deta.dev/api';
+const API_URL = "https://zk2ezn.deta.dev/api";
 
 export default function UpdateRoute() {
   const [form, setForm] = useState({
+    type: "",
     title: "",
-    description: "", // add a field to store the name of the route to update
-    geolocation: ""
+    latitude: "",
+    longitude: "",
+    details: [
+      {
+        name: "",
+        info: "",
+      },
+    ],
   });
   const navigate = useNavigate();
 
@@ -21,23 +28,33 @@ export default function UpdateRoute() {
   async function onSubmit(e) {
     e.preventDefault();
 
-      // Send a request to update the route without a file
-      axios.patch(API_URL+`/updateDP/${form.title}`, { describtion: form.description, geolocation: form.geolocation })
-        .catch(error => {
-          window.alert(error);
-          return;
-        });
+    // Send a request to update the DataPoint
+    axios.patch(API_URL + `/updateDP/${form.title}`, {
+        type: form.type,
+        latitude:form.latitude, 
+        longitude:form.longitude,
+        details: form.details,
+      })
+      .catch((error) => {
+        window.alert(error);
+        return;
+      });
 
-      setForm({ tittle: "", description: "", geolocation:"" });
-      navigate("/");
+    setForm({
+      title: "",
+      type: "",
+      coordinate: { latitude: "", longitude: "" },
+      details: [{ name: "", info: "" }],
+    });
+    navigate("/");
   }
-  
+
   return (
     <div>
-      <h3 className="centered-heading">Update Route</h3>
+      <h3 className="Center-heading">Update DataPoint</h3>
       <form onSubmit={onSubmit}>
-      <div className="form-group">
-          <label htmlFor="name">DataPoint Title</label>
+        <div className="form-group">
+          <label htmlFor="title">Title</label>
           <input
             type="text"
             className="form-control"
@@ -47,24 +64,36 @@ export default function UpdateRoute() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="name">Description</label>
+          <label htmlFor="type">Type</label>
           <input
             type="text"
             className="form-control"
-            id="description"
-            value={form.describtion}
-            onChange={(e) => updateForm("description", e.target.value)}
+            id="type"
+            value={form.type}
+            onChange={(e) => updateForm("type", e.target.value)}
           />
         </div>
         <div className="form-group">
-        <label htmlFor="info">Geolocation</label>
-        <input
-          type="text"
-          className="form-control"
-          id="geolocation"
-          value={form.geolocation}
-          onChange={(e) => updateForm("geolocation", e.target.value)}
-        />
+          <label htmlFor="latitude">Latitude</label>
+          <input
+            type="number"
+            className="form-control"
+            id="latitude"
+            value={form.latitude}
+            onChange={(e) =>
+              updateForm("latitude", e.target.value)
+            }
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="longitude">Longitude</label>
+          <input
+            type="number"
+            className="form-control"
+            id="longitude"
+            value={form.longitude}
+            onChange={(e) => updateForm("longitude", e.target.value)}
+          />
         </div>
         <div className="form-group">
           <input

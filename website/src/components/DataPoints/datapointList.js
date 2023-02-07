@@ -5,12 +5,30 @@ const API_URL = "https://zk2ezn.deta.dev/api";
 
 const DataPoint = (props) => (
   <tr>
+    <td>{props.type}</td>
     <td>{props.title}</td>
-    <td>{props.description}</td>
-    <td>{props.geolocation}</td>
     <td>
-      <Link className="btn btn-link" to={`/editPoint`}>Edit</Link> |
-      <button className="btn btn-link"
+      {props.coordinate.latitude}:{props.coordinate.longitude}
+    </td>
+    <td>
+      <table>
+        <tbody>
+          {props.details.map((detail,detailIndex) => (
+            <tr key={detailIndex}>
+              <td>Name:{detail.name}</td>
+              <td>Details:{detail.info}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </td>
+    <td>
+      <Link className="btn btn-link" to={`/editPoint`}>
+        Edit
+      </Link>{" "}
+      |
+      <button
+        className="btn btn-link"
         onClick={() => {
           props.deleteDataPoint(props.title);
         }}
@@ -22,14 +40,13 @@ const DataPoint = (props) => (
 );
 
 export default function DataPointList() {
-  const [dataPoints, setDataPoints] = useState([]);
+  const [dataPoint, setDataPoints] = useState([]);
 
   // This method fetches the dataPoints from the database.
   useEffect(() => {
     async function getDataPoints() {
-
       console.log("Fetching routes from cache...");
-      let data2 = localStorage.getItem("datapoints");
+      let data2 = localStorage.getItem("datapoint");
       if (data2) {
         console.log("Fetched routes from cache:", JSON.parse(data2));
         setDataPoints(JSON.parse(data2));
@@ -61,24 +78,33 @@ export default function DataPointList() {
 
   // This method will delete a dataPoint add api between 7000/api/delete
   async function deleteDataPoint(title) {
-    await fetch(`${API_URL}/delete/${title}`, {
-      method: "DELETE"
+    await fetch(`${API_URL}/deleteDP/${title}`, {
+      method: "DELETE",
     });
-
-    const newDataPoints = dataPoints.filter((el) => el.title !== title);
+    const newDataPoints = dataPoint.filter((el) => el.title !== title);
     setDataPoints(newDataPoints);
   }
 
   // This method will map out the dataPoints on the table
   function DataPointList() {
-    return dataPoints.map((dataPoint) => {
+    return dataPoint.map((dataPoint) => {
       return (
         <DataPoint
-          title={dataPoint.title}
-          description={dataPoint.description}
-          geolocation={dataPoint.geolocation}
-          deleteDataPoint={() => deleteDataPoint(dataPoint.title)}
           key={dataPoint._id}
+          type={dataPoint.type}
+          title={dataPoint.title}
+          coordinate={{
+            latitude: dataPoint.coordinate.latitude,
+            longitude: dataPoint.coordinate.longitude,
+          }}
+
+          details={dataPoint.details.map((detail,detailIndex) => ({
+            name: detail.name,
+            info: detail.info,
+            detailkey: detail.detailIndex
+          }))}
+
+          deleteDataPoint={() => deleteDataPoint(dataPoint.details.name)}
         />
       );
     });
@@ -91,13 +117,14 @@ export default function DataPointList() {
       <table className="table table-striped" style={{ marginTop: 20 }}>
         <thead>
           <tr>
+            <th>Type</th>
             <th>Title</th>
-            <th>Description</th>
-            <th>Geolocation</th>
+            <th>Coordinate</th>
+            <th>Details</th>
           </tr>
         </thead>
         <tbody>{DataPointList()}</tbody>
-     </table>
-   </div>
- );
+      </table>
+    </div>
+  );
 }
