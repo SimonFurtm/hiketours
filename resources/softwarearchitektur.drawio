@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-02-07T13:53:20.516Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36" etag="Gqxv_hCHn8e9b5CDU09M" version="20.8.17" type="github">
+<mxfile host="app.diagrams.net" modified="2023-02-08T10:21:47.935Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36" etag="u8pt82gl_IGVwbL28GRK" version="20.8.18" type="github">
   <diagram name="Seite-1" id="XBM6M_dfnYbNI4v-v456">
-    <mxGraphModel dx="712" dy="786" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1674" dy="796" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -77,13 +77,13 @@
         <mxCell id="HC1y-syK_XDX16wVH5VK-31" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#CCE5FF;" parent="1" vertex="1">
           <mxGeometry x="80" y="560" width="440" height="360" as="geometry" />
         </mxCell>
-        <mxCell id="HC1y-syK_XDX16wVH5VK-32" value="Event Handler&lt;br&gt;count + 1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=#66B2FF;" parent="1" vertex="1">
+        <mxCell id="HC1y-syK_XDX16wVH5VK-32" value="Event Handler&lt;br&gt;count + 1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=#99CCFF;" parent="1" vertex="1">
           <mxGeometry x="120" y="680" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="5KWKVhqCyTy1W-rFgGdQ-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="HC1y-syK_XDX16wVH5VK-33" target="HC1y-syK_XDX16wVH5VK-32" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HC1y-syK_XDX16wVH5VK-33" value="GUI" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=#66B2FF;" parent="1" vertex="1">
+        <mxCell id="HC1y-syK_XDX16wVH5VK-33" value="GUI" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=#99CCFF;" parent="1" vertex="1">
           <mxGeometry x="120" y="800" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="5KWKVhqCyTy1W-rFgGdQ-1" value="Redux State Management" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
