@@ -1,58 +1,44 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import MapView, { Marker, Callout, Circle, Polyline, Geojson } from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions, Button, Pressable, TouchableOpacity, Platform, Modal, Image } from 'react-native';
+import MapView, { Geojson } from 'react-native-maps';
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Modal, Button } from 'react-native';
 import * as Location from 'expo-location';
-import { Popup } from 'react-native-map-link';
 import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 
 
 export default function Map() {
 
-  const Hubertusweg = require('../../assets/Routes/Hubertusweg.json');
-  const Erzweg = require('../../assets/Routes/Erzweg.json');
-
-  const [pinBlue, setPinBlue] = React.useState({ latitude: 47.41545773037797, longitude: 13.218184887894393, })
-  const [pinRed, setPinRed] = React.useState({ latitude: 47.41545773037797, longitude: 13.218184887894393, })
-
   const mapRef = React.createRef()
-
-  //map style
   const [mapStyle, setMapStyle] = React.useState("hybrid");
-
-  //modal state
   const [modalVisible, setModalVisible] = useState(false);
-
-  //custom route that the user will be tracking
-  const [customRoute, setCustomRoute] = useState(null)
-
-  const [time, setTime] = useState(Date.now());
   const [count, setCount] = useState(1);
-
-  const [currGeojson, setCurrGeojson] = useState(Hubertusweg);
-
-
-  const Bischofshofen = {
-    latitude: 47.41545773037797,
-    longitude: 13.218184887894393,
-    latitudeDelta: 0.06,
-    longitudeDelta: 0.04,
-  };
-
-  const [region, setRegion] = React.useState({
-    latitude: 51.5079145,
-    longitude: -0.0899163,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+  const [currGeojson, setCurrGeojson] = useState("");
+  const [customRoute, setCustomRoute] = useState([]);
+  const [isTracking, setIsTracking] = useState(false);
+  const [watcher, setWatcher] = useState(null);
+  const Bischofshofen = { latitude: 47.41545773037797, longitude: 13.218184887894393, latitudeDelta: 0.06, longitudeDelta: 0.04, };
+  const [location, setLocation] = useState(null);
+  const [routes, setRoute] = useState([]);
+  const [isFinishedLoading, setIsFinishedLoading] = useState(false);
+  const [customGejson, setCustomGeojson] = useState({
+    type: "FeatureCollection",
+    name: "customRoute",
+    features: [
+      {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "MultiLineString",
+          coordinates: [
+            [],
+          ],
+        },
+      },
+    ],
   });
 
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-  const [lastLocation, setLastLocation] = useState(null);
-
-  const [routes, setRoute] = useState([]); //javascript
-  //const [routen, setRoute] = useState<any[]>([]); //typescript
-
+  //get foreground permission to access location
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -60,100 +46,204 @@ export default function Map() {
         setErrorMsg('Permission to access location was denied');
         return;
       }
-
-      let location = await Location.getCurrentPositionAsync({});
-      let lastLocation = await Location.getLastKnownPositionAsync({});
-      setLocation(location);
-      setPinRed({ latitude: location.coords.latitude, longitude: location.coords.longitude })
-      setLastLocation(lastLocation);
     })();
+  }, []);
 
-    //fetch DB Data
-    async function getRoutes() {
-      //console.log("Fetching routes from server...");
-      const response = await fetch(`https://zk2ezn.deta.dev/api/allroutes`);
+  //update location every x seconds
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      (async () => {
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+        console.log("Location updated successfully");
+      })();
 
-      if (!response.ok) {
-        const message = `An error occurred: ${response.statusText}`;
-        //window.alert(message);
-        return;
+    }, 1000 * 50)
+    return () => clearInterval(intervalId)
+  }, [location]);
+
+  //activate location watcher
+  useEffect(() => {
+    (async () => {
+      if (isTracking) {
+        Location.watchPositionAsync({
+          enableHighAccuracy: true,
+          distanceInterval: 1,
+          timeout: 5000
+        }, location => {
+          setCustomRoute(customRoute => [...customRoute, location.coords]);
+          setLocation(location);
+        }).then((locationWatcher) => {
+          setWatcher(locationWatcher);
+        }).catch((err) => {
+          console.log(err)
+        })
       }
+    })();
+  }, [isTracking]);
 
-      const data = await response.json();
-      if (Array.isArray(data)) {
-        //console.log("Fetched routes:", data);
-        setRoute(data);
-      } else {
-        console.error("Received non-array data from server:", data);
-      }
+  // whenever the customRoute array changes, update the customGeojson
+  useEffect(() => {
+    if (isTracking) {
+      setCustomGeojson({
+        type: "FeatureCollection",
+        name: "customRoute",
+        features: [
+          {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "MultiLineString",
+              coordinates: [
+                customRoute.map((coords) => [coords.longitude, coords.latitude]),
+              ],
+            },
+          },
+        ],
+      });
     }
+  }, [customRoute])
+
+  //When the map component renders, fetch all routes from the server
+  useEffect(() => {
     getRoutes();
-    return;
-  }, [routes]);
+  }, []);
 
+  async function getRoutes() {
+    console.log("Fetching routes from server...");
+    const response = await fetch(`https://zk2ezn.deta.dev/api/allroutes`);
+    if (!response.ok) {
+      console.error("Failed to fetch routes from server:", response);
+      getRoutes();
+      return;
+    }
+    const data = await response.json();
+    if (Array.isArray(data)) {
+      console.log("Successfully fetched routes from server");
+      console.log("Routes fetched: ", data);
+      setIsFinishedLoading(true);
+      setRoute(data);
+    } else {
+      console.error("Received non-array data from server:", data);
+    }
+  }
 
-  const moveToLocation = () => {
+  //move map to current location
+  function moveToLocation() {
     if (location != null) {
-      console.log("moving to location");
       mapRef.current.animateToRegion({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005
+        //latitudeDelta: 0.003,
+        //longitudeDelta: 0.003
+        latitudeDelta: 0.0003,
+        longitudeDelta: 0.0003
       })
     }
   }
 
-  const nextRoute = () => {
-    if (routes != null) {
-      () => getRouten();
-      console.log("Getting Data");
-    } else {
-      console.log("Check the DB-Connection");
-    }
-  }
-
-
-  //When pressing on a route
-  const handleGeoJsonPress = (event) => {
-    //print the name of the route to the console
+  //when clicking on any route
+  function handleGeoJsonPress(event) {
     setCurrGeojson(event);
     console.log(currGeojson.name);
-    //set the state of the modal to true
     setModalVisible(true);
   };
 
-  const changeMapStyle = () => {
-    //change x every third time
-    console.log(count);
-    if (count == 1) {
-      setMapStyle("satellite");
-      setCount(2);
-    }
-    if (count == 2) {
-      setMapStyle("standard");
-      setCount(3);
-    }
-    if (count == 3) {
-      setMapStyle("terrain");
-      setCount(4);
-    }
-    if (count == 4) {
-      setMapStyle("hybrid");
-      setCount(1);
+  //change map style
+  function changeMapStyle() {
+    switch (count) {
+      case 1:
+        setMapStyle("satellite");
+        setCount(2);
+        break;
+      case 2:
+        setMapStyle("terrain");
+        setCount(3);
+        break;
+      case 3:
+        setMapStyle("hybrid");
+        setCount(1);
+        break;
+      default:
+        break;
     }
   }
 
-  const trackUserRoute = () => {
-    
+  const handleStartTracking = () => {
+    console.log("watcher started");
+    setIsTracking(true);
+    moveToLocation();
+
+  }
+
+  const handleStopTracking = () => {
+    console.log("watcher stopped");
+    setIsTracking(false);
+    watcher.remove();
+    moveToLocation();
+  }
+
+  const handleDiscardRoute = () => {
+    console.log("Custom route discarded");
+    watcher.remove();
+    setIsTracking(false);
+    setCustomRoute([]);
+    setCustomGeojson({
+      type: "FeatureCollection",
+      name: "customRoute",
+      features: [
+        {
+          type: "Feature",
+          properties: {},
+          geometry: {
+            type: "MultiLineString",
+            coordinates: [
+              [],
+            ],
+          },
+        },
+      ],
+    });
+  }
+
+  const handleSaveRoute = () => {
+    console.log("Custom route saved");
+    watcher.remove();
+    setIsTracking(false);
+    postCustomRoute();
+    console.log(JSON.stringify(customGejson));
+
+  }
+
+  function postCustomRoute() {
+    fetch('https://zk2ezn.deta.dev/api/add/route', {
+      method: 'POST',
+      body: JSON.stringify(customGejson),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(response => {
+        if (!response.ok) {
+          postCustomRoute();
+          throw new Error(`fetch failed with status ${response.status}`);
+          
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
 
   return (
     <View>
+
       {/*Popup window when clicking on GeoJson path using a Modal*/}
       <Modal
-        animationType="fade"
+        animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -162,17 +252,14 @@ export default function Map() {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            {/*Text above the buttons*/}
             <Text style={styles.modalText}>{currGeojson.name}</Text>
             <Text style={styles.modalText}>{currGeojson.info}</Text>
-            {/*Button to start the route*/}
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(false)}
+              onPress={moveToLocation}
             >
               <Text style={styles.textStyle}>Weg starten</Text>
             </TouchableOpacity>
-            {/*Button to exit popup window*/}
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(false)}
@@ -182,7 +269,6 @@ export default function Map() {
           </View>
         </View>
       </Modal>
-      {/*End of Modal*/}
 
       {/*Adds a Button that moves to your location when pressed*/}
       <TouchableOpacity style={[styles.UIButtonView]} onPress={moveToLocation}>
@@ -194,15 +280,52 @@ export default function Map() {
         />
       </TouchableOpacity>
 
-      {/*I woas immano ned wos des mocht Simon*/}
-      <TouchableOpacity style={[styles.RouteStyleButtonView]} onPress={nextRoute}>
+
+      {/*Adds a Button that moves to your location when pressed*/}
+      <TouchableOpacity style={[styles.UIButtonView]} onPress={moveToLocation}>
         <AntDesign
           style={styles.locationButtonImage}
-          name="forward"
+          name="pluscircle"
           size={40}
           color="white"
         />
       </TouchableOpacity>
+
+
+      {/*Start to track your own custom route*/}
+      {!isTracking && (
+        <TouchableOpacity style={[styles.RouteStyleButtonView]} onPress={handleStartTracking}>
+          <AntDesign
+            style={styles.locationButtonImage}
+            name="play"
+            size={40}
+            color="white"
+          />
+        </TouchableOpacity>
+      )}
+
+      {/*Stops tracking your custom route and prompts you to discard or save*/}
+      {isTracking && (
+        <TouchableOpacity style={styles.RouteStyleButtonView} onPress={handleStopTracking}>
+          <FontAwesome5 name="stop" size={40} color="white" />
+        </TouchableOpacity>
+      )}
+
+      {/*Discard custom route*/}
+      {isTracking && (
+        <TouchableOpacity style={styles.DiscardCustomRouteButton} onPress={handleDiscardRoute}>
+          <FontAwesome5 name="ban" size={40} color="white" />
+        </TouchableOpacity>
+      )}
+
+      {/*Save custom route*/}
+      {isTracking && (
+        <TouchableOpacity style={styles.SaveCustomRouteButton} onPress={handleSaveRoute}>
+          <FontAwesome5 name="save" size={40} color="white" />
+        </TouchableOpacity>
+      )}
+
+
 
       {/*Adds a Button that changes the map type (satelite, hightmap, etc...)*/}
       <TouchableOpacity
@@ -217,52 +340,38 @@ export default function Map() {
         />
       </TouchableOpacity>
 
-      <MapView style={styles.map}
-        showsUserLocation={true}
-        ref={mapRef}
-        mapType={mapStyle}
-        region={Bischofshofen}
-        provider="google"
-        //onUserLocationChange={setCustomRoute()}
-      >
+      {isFinishedLoading && (
+        <MapView style={styles.map}
+          showsUserLocation={true}
+          ref={mapRef}
+          mapType={mapStyle}
+          region={Bischofshofen}
+          provider="google"
+        >
 
-        {/*Map all routes from the database*/}
-        {routes.map((route) => (
-          <Geojson
-            tappable
-            geojson={route}
-            strokeColor="blue"
-            strokeWidth={2}
-            onPress={() => handleGeoJsonPress(route)}
-          />
+          {/*Map all routes from the database*/}
+          {routes.map((route) => (
+            <Geojson
+              key={route._id}
+              tappable
+              geojson={route}
+              strokeColor="blue"
+              strokeWidth={2}
+              onPress={() => handleGeoJsonPress(route)}
+            />
 
-        ))}
+          ))}
 
-        {/*Adds the static route Hubertusweg for test purposes*/}
-        <Geojson
-          tappable
-          geojson={Hubertusweg}
-          strokeColor="#27c7be"
-          strokeWidth={2}
-          onPress={() => handleGeoJsonPress(Hubertusweg)}
-        />
+          {customRoute.length > 0 && (
+            <Geojson
+              geojson={customGejson}
+              strokeColor="blue"
+              strokeWidth={2}
+            />
+          )}
 
-        {/*Adds the static route Erzweg for test purposes*/}
-        <Geojson
-          tappable
-          geojson={Erzweg}
-          strokeColor="blue"
-          strokeWidth={2}
-          //Open a popup window and send the name of the route to the popup
-          onPress={() => handleGeoJsonPress(Erzweg)}
-        />
-        {/*Draw the current route that the user is tracking
-        <Polyline
-          coordinates={customRoute}
-          strokeColor="red"
-          strokeWidth={2}
-        />*/}
-      </MapView >
+        </MapView >
+      )}
     </View>
 
   );
@@ -278,12 +387,6 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
-  },
-  overlay: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: "#218123",
-    padding: 10
   },
   button: {
     alignItems: "center",
@@ -359,6 +462,42 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: '40%',
     left: '88%',
+
+    zIndex: 2,
+  },
+  DiscardCustomRouteButton: {
+    width: '15%',
+    height: '10%',
+    position: 'absolute',
+    bottom: '35%',
+    left: '70%',
+
+    zIndex: 2,
+  },
+  SaveCustomRouteButton: {
+    width: '15%',
+    height: '10%',
+    position: 'absolute',
+    bottom: '45%',
+    left: '70%',
+
+    zIndex: 2,
+  },
+  StopTrackingButton: {
+    width: '15%',
+    height: '10%',
+    position: 'absolute',
+    bottom: '40%',
+    left: '10%',
+
+    zIndex: 2,
+  },
+  PauseTrackingButton: {
+    width: '15%',
+    height: '10%',
+    position: 'absolute',
+    bottom: '40%',
+    left: '20%',
 
     zIndex: 2,
   },
