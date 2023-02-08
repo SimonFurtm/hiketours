@@ -23,6 +23,7 @@ export default function Map() {
   const [isFinishedLoading, setIsFinishedLoading] = useState(false);
   const [customGejson, setCustomGeojson] = useState({
     type: "FeatureCollection",
+    name: "customRoute",
     features: [
       {
         type: "Feature",
@@ -84,24 +85,25 @@ export default function Map() {
   // whenever the customRoute array changes, update the customGeojson
   useEffect(() => {
     if (isTracking) {
-    setCustomGeojson({
-      type: "FeatureCollection",
-      features: [
-        {
-          type: "Feature",
-          properties: {},
-          geometry: {
-            type: "MultiLineString",
-            coordinates: [
-              customRoute.map((coords) => [coords.longitude, coords.latitude]),
-            ],
+      setCustomGeojson({
+        type: "FeatureCollection",
+        name: "customRoute",
+        features: [
+          {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "MultiLineString",
+              coordinates: [
+                customRoute.map((coords) => [coords.longitude, coords.latitude]),
+              ],
+            },
           },
-        },
-      ],
-    });
-  }
+        ],
+      });
+    }
   }, [customRoute])
-  
+
   //When the map component renders, fetch all routes from the server
   useEffect(() => {
     getRoutes();
@@ -118,6 +120,7 @@ export default function Map() {
     const data = await response.json();
     if (Array.isArray(data)) {
       console.log("Successfully fetched routes from server");
+      console.log("Routes fetched: ", data);
       setIsFinishedLoading(true);
       setRoute(data);
     } else {
@@ -154,14 +157,10 @@ export default function Map() {
         setCount(2);
         break;
       case 2:
-        setMapStyle("standard");
+        setMapStyle("terrain");
         setCount(3);
         break;
       case 3:
-        setMapStyle("terrain");
-        setCount(4);
-        break;
-      case 4:
         setMapStyle("hybrid");
         setCount(1);
         break;
@@ -180,7 +179,7 @@ export default function Map() {
   const handleStopTracking = () => {
     console.log("watcher stopped");
     setIsTracking(false);
-    watcher.remove(); 
+    watcher.remove();
     moveToLocation();
   }
 
@@ -191,6 +190,7 @@ export default function Map() {
     setCustomRoute([]);
     setCustomGeojson({
       type: "FeatureCollection",
+      name: "customRoute",
       features: [
         {
           type: "Feature",
@@ -203,14 +203,40 @@ export default function Map() {
           },
         },
       ],
-    }); 
+    });
   }
 
   const handleSaveRoute = () => {
     console.log("Custom route saved");
     watcher.remove();
     setIsTracking(false);
+    postCustomRoute();
+    console.log(JSON.stringify(customGejson));
+
   }
+
+  function postCustomRoute() {
+    fetch('https://zk2ezn.deta.dev/api/add/route', {
+      method: 'POST',
+      body: JSON.stringify(customGejson),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(response => {
+        if (!response.ok) {
+          postCustomRoute();
+          throw new Error(`fetch failed with status ${response.status}`);
+          
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
 
   return (
     <View>
