@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from 'axios';
 
+const API_URL = 'https://zk2ezn.deta.dev/api';
+
 export default function UpdateRoute() {
   const [form, setForm] = useState({
     file: null,
@@ -41,7 +43,7 @@ export default function UpdateRoute() {
         };
 
         // Send the data to the server to update the route
-        axios.patch(`http://localhost:7000/api/update/${form.name}`, updatedRoute)
+        axios.patch(API_URL+`/update/${form.name}`, updatedRoute)
           .catch(error => {
             window.alert(error);
             return;
@@ -54,7 +56,7 @@ export default function UpdateRoute() {
       reader.readAsText(form.file);
     } else {
       // Send a request to update the route without a file
-      axios.patch(`http://localhost:7000/api/update/${form.name}`, { info: form.info, color: form.color})
+      axios.patch(API_URL+`/update/${form.name}`, { info: form.info })
         .catch(error => {
           window.alert(error);
           return;

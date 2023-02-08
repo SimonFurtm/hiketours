@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
- 
+
+const API_URL = "https://zk2ezn.deta.dev/api";
+
 const Routen = (props) => (
  <tr>
    <td>{props.name}</td>
@@ -22,21 +24,32 @@ const Routen = (props) => (
 export default function RoutenList() {
  const [routen, setRoute] = useState([]);
  
- // This method fetches the routes from the database.
+ // This method fetches the routes from the cache first and then from the server.
  useEffect(() => {
    async function getRouten() {
-     console.log("Fetching routes from server...");
-     const response = await fetch(`http://localhost:7000/api/allroutes`);
+    //Use cache for better performance and not to many request to the api and database
+     console.log("Fetching routes from cache...");
+     let data = localStorage.getItem("routen");
+     if (data) {
+       console.log("Fetched routes from cache:", JSON.parse(data));
+       setRoute(JSON.parse(data));
+       return;
+     }
  
+     console.log("Fetching routes from server..." + API_URL);
+     const response = await fetch(API_URL + "/allroutes");
+  
      if (!response.ok) {
        const message = `An error occurred: ${response.statusText}`;
        window.alert(message);
        return;
      }
 
-      const data = await response.json();
+      data = await response.json();
+      console.log(data);
       if (Array.isArray(data)) {
         console.log("Fetched routes:", data);
+        localStorage.setItem("routen", JSON.stringify(data));
         setRoute(data);
       } else {
       console.error("Received non-array data from server:", data);
@@ -46,15 +59,16 @@ export default function RoutenList() {
    getRouten();
  
    return;
- }, [routen]);
+ }, []);
  
  // This method will delete a route add api between 7000/api/delete
  async function deleteRoute(name) {
-   await fetch(`http://localhost:7000/api/delete/${name}`, {
+   await fetch(`${API_URL}/delete/${name}`, {
      method: "DELETE"
    });
  
    const newRoute = routen.filter((el) => el.name !== name);
+   localStorage.setItem("routen", JSON.stringify(newRoute));
    setRoute(newRoute);
  }
  
