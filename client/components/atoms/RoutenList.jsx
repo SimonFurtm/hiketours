@@ -53,7 +53,7 @@ const List = ({ searchPhrase, setClicked, data, setVisible }) => {
         <FlatList
           data={data}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(data) => data._id}
         />
       </View>
     </SafeAreaView>
