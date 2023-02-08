@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import MapView, { Geojson } from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Modal, Button } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Modal, Button, TextInput } from 'react-native';
 import * as Location from 'expo-location';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -21,9 +21,11 @@ export default function Map() {
   const [location, setLocation] = useState(null);
   const [routes, setRoute] = useState([]);
   const [isFinishedLoading, setIsFinishedLoading] = useState(false);
-  const [customGejson, setCustomGeojson] = useState({
+  const [saveCustomRouteModalVisible, setSaveCustomRouteModalVisible] = useState(false);
+  const [customRouteName, setCustomRouteName] = useState("ma");
+  const [customGeojson, setCustomGeojson] = useState({
     type: "FeatureCollection",
-    name: "customRoute",
+    name: customRouteName,
     features: [
       {
         type: "Feature",
@@ -58,16 +60,16 @@ export default function Map() {
         console.log("Location updated successfully");
       })();
 
-    }, 1000 * 50)
+    }, 1000 * 10)
     return () => clearInterval(intervalId)
-  }, [location]);
+  }, []);
 
   //activate location watcher
   useEffect(() => {
     (async () => {
       if (isTracking) {
         Location.watchPositionAsync({
-          enableHighAccuracy: true,
+          accuracy: Location.Accuracy.Balanced,
           distanceInterval: 1,
           timeout: 5000
         }, location => {
@@ -87,7 +89,7 @@ export default function Map() {
     if (isTracking) {
       setCustomGeojson({
         type: "FeatureCollection",
-        name: "customRoute",
+        name: customRouteName,
         features: [
           {
             type: "Feature",
@@ -190,7 +192,7 @@ export default function Map() {
     setCustomRoute([]);
     setCustomGeojson({
       type: "FeatureCollection",
-      name: "customRoute",
+      name: customRouteName,
       features: [
         {
           type: "Feature",
@@ -203,30 +205,48 @@ export default function Map() {
           },
         },
       ],
-    });
+    })
+    console.log("Name of route: "+customGeojson.name);
+    
   }
 
-  const handleSaveRoute = () => {
-    console.log("Custom route saved");
+  function handleSaveRoute() {
     watcher.remove();
     setIsTracking(false);
     postCustomRoute();
-    console.log(JSON.stringify(customGejson));
+    console.log(JSON.stringify(customGeojson));
+    setSaveCustomRouteModalVisible(true);
 
   }
 
   function postCustomRoute() {
     fetch('https://zk2ezn.deta.dev/api/add/route', {
       method: 'POST',
-      body: JSON.stringify(customGejson),
+      body: JSON.stringify({
+        type: "FeatureCollection",
+        name: customRouteName,
+        features: [
+          {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "MultiLineString",
+              coordinates: [
+                customRoute.map((coords) => [coords.longitude, coords.latitude]),
+              ],
+            },
+          },
+        ],
+      }),
       headers: { 'Content-Type': 'application/json' },
     })
       .then(response => {
         if (!response.ok) {
           postCustomRoute();
           throw new Error(`fetch failed with status ${response.status}`);
-          
+
         }
+        console.log("Custom route saved");
         return response.json();
       })
       .then(data => {
@@ -240,6 +260,44 @@ export default function Map() {
 
   return (
     <View>
+
+      {/*Popup for when the user Saves a custom route*/}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={saveCustomRouteModalVisible}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Gib hier den Namen der Route ein</Text>
+            <TextInput
+              style={styles.TextInputStyle}
+              placeholder="Route Name"
+              onChangeText={text => setCustomRouteName(text)}
+            />
+            <TouchableOpacity
+              style={[styles.button, styles.buttonClose]}
+              onPress={() =>{
+                handleSaveRoute();
+                setSaveCustomRouteModalVisible(false);
+              }
+              }
+            >
+              <Text style={styles.textStyle}>Speichern</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => {
+                setSaveCustomRouteModalVisible(false);
+                setIsTracking(true);
+              }}
+            >
+              <Text style={styles.textStyle}>Abbrechen</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
 
       {/*Popup window when clicking on GeoJson path using a Modal*/}
       <Modal
@@ -318,9 +376,13 @@ export default function Map() {
         </TouchableOpacity>
       )}
 
-      {/*Save custom route*/}
+      {/*Open a popup where you can save the custom route*/}
       {isTracking && (
-        <TouchableOpacity style={styles.SaveCustomRouteButton} onPress={handleSaveRoute}>
+        <TouchableOpacity style={styles.SaveCustomRouteButton}
+          onPress={() => {
+            setSaveCustomRouteModalVisible(true);
+            setIsTracking(false);
+          }}>
           <FontAwesome5 name="save" size={40} color="white" />
         </TouchableOpacity>
       )}
@@ -364,7 +426,7 @@ export default function Map() {
 
           {customRoute.length > 0 && (
             <Geojson
-              geojson={customGejson}
+              geojson={customGeojson}
               strokeColor="blue"
               strokeWidth={2}
             />
@@ -501,5 +563,15 @@ const styles = StyleSheet.create({
 
     zIndex: 2,
   },
+  TextInputStyle: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginTop: 10,
+    padding: 10,
+    width: '80%',
+    alignSelf: 'center'
+  }
+
 
 });
