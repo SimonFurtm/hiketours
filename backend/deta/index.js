@@ -1,10 +1,10 @@
 const express = require("express");
-const app = express();
 const cors = require("cors");
 
+const app = express();
 const port = 7000;
+
 app.use(cors());
-app.use(express.json());
 // get driver connection
 const dbo = require("./db/conn");
 
@@ -37,10 +37,17 @@ app.use((req, res, next) => {
 
 app.listen(port, () => {
   // perform a database connection when server starts
-  dbo.connectToServer(function (err) {
+  dbo.connect(function (err) {
     if (err) console.error(err);
   });
   console.log(`Server is running on port: ${port}`);
+});
+
+connection.once("open", function () {
+  console.log("Successfully connected to MongoDB.");
+});
+connection.on("error", function (error) {
+  console.error("Error connecting to MongoDB:", error);
 });
 
 module.exports = app;

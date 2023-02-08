@@ -1,28 +1,21 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const mongoose = require("mongoose");
 
 const Db =
-  "mongodb+srv://User:07yE5tT4BoijtUBI@hiketours.hgoxcpn.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(Db, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverApi: ServerApiVersion.v1,
+"mongodb+srv://User:07yE5tT4BoijtUBI@hiketours.hgoxcpn.mongodb.net/HikeTours?retryWrites=true&w=majority";
+
+mongoose.connect(Db, {
+useNewUrlParser: true,
+useUnifiedTopology: true,
 });
 
-var _db;
+const connection = mongoose.connection;
 
-module.exports = {
-  connectToServer: async function () {
-    try {
-      await client.connect();
-      _db = client.db("HikeTours");
-      console.log("Successfully connected to MongoDB.");
-    } catch (error) {
-      console.error("Error connecting to MongoDB:", error);
-      throw error;
-    }
-  },
+connection.once("open", function () {
+console.log("Successfully connected to MongoDB.");
+});
 
-  getDb: function () {
-    return _db;
-  },
-};
+connection.on("error", function (error) {
+console.error("Error connecting to MongoDB:", error);
+});
+
+module.exports = connection;
