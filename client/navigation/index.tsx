@@ -16,10 +16,10 @@ import HelpScreen from '../screens/sub/HelpScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 //import Screens
 import HomeScreen from '../screens/main/HomeScreen';
-import SearchScreen from '../screens/main/SearchScreen';
+import SearchScreen from '../screens/sub/SearchScreen';
 import ProfileScreen from '../screens/main/ProfileScreen';
 import RoutesScreen from '../screens/main/RoutesScreen';
-import InfoScreen from '../screens/main/InfoScreen';
+import InfoScreen from '../screens/sub/InfoScreen';
 //LinkingConfig
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';

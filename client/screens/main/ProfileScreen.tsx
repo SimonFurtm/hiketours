@@ -7,6 +7,7 @@ import * as Google from 'expo-auth-session/providers/google';
 import { Text, View } from '../../components/atoms/Themed';
 import { RootTabScreenProps } from '../../types';
 import Login from '../../components/organism/login';
+import { useState } from 'react';
 
 export default function ProfileScreen({ navigation }: RootTabScreenProps<'Profile'>) {
 

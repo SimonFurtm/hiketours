@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { Button, StyleSheet } from 'react-native';
+import { Button, StyleSheet, Image, TouchabkeOpacity  } from 'react-native';
 
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 
-import { Text, View, Image, TouchabkeOpacity } from '../../components/atoms/Themed';
+import { Text, View} from '../../components/atoms/Themed';
+import Colors from '../../constants/Colors';
 import { RootTabScreenProps } from '../../types';
 
 WebBrowser.maybeCompleteAuthSession();
 
-export default function GoogleLogin() {
+export default function GoogleLogin(logedIn, setLogedIn) {
   const [accesToken, setAccessToken] = React.useState(null);  //Usertoken
   const [user, setUser] = React.useState(null);
 
@@ -57,7 +58,8 @@ export default function GoogleLogin() {
 
   return (
     <View>
-      {user === null &&
+      
+      {/*user === null &&
         <Button 
           disabled={!request}
           title="Google-Login"
@@ -65,12 +67,14 @@ export default function GoogleLogin() {
             promptAsync();
           }}
       />
-      }
-      <Button 
-        title={accesToken ? "Get User Data" : "Login"}
-        color= "red"
+        */}
+      <TouchabkeOpacity 
+        style={styles.button}
+        disabled={true}
         onPress={accesToken ? getUserData : () => {promptAsync({showInRecents: true})}}
-      />
+      >
+        <Text>{accesToken ? "Get User Data" : "Login"}</Text>
+      </TouchabkeOpacity>
       {/*showUserInfo()*/}
     </View>
     
@@ -91,5 +95,12 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: '80%',
+  },
+  button: {
+    backgroundColor: Colors.dark.secondaryDark,
+    alignItems: 'center',
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
   },
 });

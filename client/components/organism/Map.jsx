@@ -1,11 +1,14 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import MapView, { Geojson } from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Modal, Button, TextInput } from 'react-native';
+import { StyleSheet, View, Dimensions, TouchableOpacity, Modal, Button, TextInput } from 'react-native';
+import { Text, } from '../atoms/Themed';
 import * as Location from 'expo-location';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Colors from '../../constants/Colors';
 
-
+{/**https://fontawesome.com/v5/search?o=r&c=design */}
 
 export default function Map() {
 
@@ -23,6 +26,7 @@ export default function Map() {
   const [isFinishedLoading, setIsFinishedLoading] = useState(false);
   const [saveCustomRouteModalVisible, setSaveCustomRouteModalVisible] = useState(false);
   const [customRouteName, setCustomRouteName] = useState("ma");
+  const [customRouteInfo, setCustomRouteInfo] = useState("ma");
   const [customGeojson, setCustomGeojson] = useState({
     type: "FeatureCollection",
     name: customRouteName,
@@ -225,6 +229,7 @@ export default function Map() {
       body: JSON.stringify({
         type: "FeatureCollection",
         name: customRouteName,
+        info: customRouteInfo,
         features: [
           {
             type: "Feature",
@@ -272,8 +277,14 @@ export default function Map() {
             <Text style={styles.modalText}>Gib hier den Namen der Route ein</Text>
             <TextInput
               style={styles.TextInputStyle}
-              placeholder="Route Name"
+              placeholder="Name"
               onChangeText={text => setCustomRouteName(text)}
+            />
+            <Text style={styles.modalText}>Gib hier Infos ein</Text>
+            <TextInput
+              style={styles.TextInputStyle}
+              placeholder="Info"
+              onChangeText={text => setCustomRouteInfo(text)}
             />
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
@@ -330,49 +341,28 @@ export default function Map() {
 
       {/*Adds a Button that moves to your location when pressed*/}
       <TouchableOpacity style={[styles.UIButtonView]} onPress={moveToLocation}>
-        <AntDesign
-          style={styles.locationButtonImage}
-          name="pluscircle"
-          size={40}
-          color="white"
-        />
-      </TouchableOpacity>
-
-
-      {/*Adds a Button that moves to your location when pressed*/}
-      <TouchableOpacity style={[styles.UIButtonView]} onPress={moveToLocation}>
-        <AntDesign
-          style={styles.locationButtonImage}
-          name="pluscircle"
-          size={40}
-          color="white"
-        />
+        <FontAwesome5 name="search-location" size={40} color={Colors.dark.primary} />
       </TouchableOpacity>
 
 
       {/*Start to track your own custom route*/}
       {!isTracking && (
         <TouchableOpacity style={[styles.RouteStyleButtonView]} onPress={handleStartTracking}>
-          <AntDesign
-            style={styles.locationButtonImage}
-            name="play"
-            size={40}
-            color="white"
-          />
+          <FontAwesome5 name="play" size={40} color={Colors.dark.primary} />
         </TouchableOpacity>
       )}
 
       {/*Stops tracking your custom route and prompts you to discard or save*/}
       {isTracking && (
         <TouchableOpacity style={styles.RouteStyleButtonView} onPress={handleStopTracking}>
-          <FontAwesome5 name="stop" size={40} color="white" />
+          <FontAwesome5 name="pause" size={40} color={Colors.dark.primary} />
         </TouchableOpacity>
       )}
 
       {/*Discard custom route*/}
       {isTracking && (
         <TouchableOpacity style={styles.DiscardCustomRouteButton} onPress={handleDiscardRoute}>
-          <FontAwesome5 name="ban" size={40} color="white" />
+          <FontAwesome5 name="ban" size={40} color={Colors.dark.primary} />
         </TouchableOpacity>
       )}
 
@@ -383,23 +373,16 @@ export default function Map() {
             setSaveCustomRouteModalVisible(true);
             setIsTracking(false);
           }}>
-          <FontAwesome5 name="save" size={40} color="white" />
+          <FontAwesome5 name="save" size={40} color={Colors.dark.primary} />
         </TouchableOpacity>
       )}
-
-
 
       {/*Adds a Button that changes the map type (satelite, hightmap, etc...)*/}
       <TouchableOpacity
         style={styles.MapStyleButtonView}
         onPress={changeMapStyle}
       >
-        <AntDesign
-          style={styles.ButtonImage}
-          name="earth"
-          size={40}
-          color="white"
-        />
+        <FontAwesome5 name="layer-group" size={40} color={Colors.dark.primary} />
       </TouchableOpacity>
 
       {isFinishedLoading && (
@@ -468,7 +451,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: Colors.dark.primaryAccent,
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -486,7 +469,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   button: {
-    backgroundColor: "lightblue",
+    backgroundColor: Colors.dark.secondary,
     borderRadius: 20,
     padding: 10,
     elevation: 2,

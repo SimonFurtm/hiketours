@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import EditScreenInfo from '../../components/organism/EditScreenInfo';
 import { Text, View } from '../../components/atoms/Themed';
 import { RootTabScreenProps } from '../../types';
+import React from 'react';
 
 export default function InfoScreen({ navigation }: RootTabScreenProps<'Info'>) {
   return (

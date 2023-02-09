@@ -17,7 +17,7 @@ const List = ({ searchPhrase, setClicked, data, setVisible }) => {
     // when input is empty
     if (searchPhrase === "") {
       return (
-        <TouchableOpacity style={styles.card} onPress={() => setVisible(true) & console.log(listItem.name)}>
+        <TouchableOpacity style={styles.card} onPress={() => setVisible(true) & console.log(listItem.name + ": " + listItem.info)}>
           <Text style={styles.listTitle}>{listItem.name}</Text>
           <Text style={styles.list}>{listItem.info}</Text>
         </TouchableOpacity>
