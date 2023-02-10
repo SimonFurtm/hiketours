@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   textContainer: {
-    backgroundColor: Colors.dark.primaryAccent,
+    backgroundColor: Colors.dark.secondaryDark,
     alignContent: "center",
     padding: 10,
   },

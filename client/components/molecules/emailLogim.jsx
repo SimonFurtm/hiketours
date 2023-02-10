@@ -21,12 +21,13 @@ const AuthProvider = ({ children }) => {
 export default function EmailLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { setUser } = useContext(AuthContext);
+  const {user, setUser } = useContext(AuthContext);
   const [logedIn, setLogedIn] = useState(false);
 
   const toggleLogin = () => {
     setLogedIn(!logedIn);
   };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -35,13 +36,12 @@ export default function EmailLogin() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username: name, password: passwort }),
+        body: JSON.stringify({ username: username, password: password }),
       });
       const data = await res.json();
       if (data.success) {
-        setUser({ username: name});
+        setUser({ username: username});
         console.log("it worked");
-        navigate("/");
       } else {
         console.log("faild as usual");
       }
@@ -67,7 +67,7 @@ export default function EmailLogin() {
 
   return (
     <View>
-      
+      {}
       <Text style={styles.title}>{logedIn ? 'Login' : 'Register'}</Text>
       <TextInput
         style={styles.input}

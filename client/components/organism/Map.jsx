@@ -451,7 +451,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: Colors.dark.primaryAccent,
+    backgroundColor: Colors.dark.secondary,
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -469,10 +469,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   button: {
-    backgroundColor: Colors.dark.secondary,
+    backgroundColor: Colors.dark.secondaryDark,
     borderRadius: 20,
     padding: 10,
-    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   buttonClose: {
     marginTop: 10,
@@ -547,14 +551,18 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   TextInputStyle: {
+    backgroundColor: Colors.dark.primary,
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    marginTop: 10,
+    margin: 5,
     padding: 10,
-    width: '80%',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    borderRadius: 25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   }
-
-
 });
