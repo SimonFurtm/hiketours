@@ -1,1 +1,77 @@
-<mxfile host="app.diagrams.net" modified="2023-03-07T07:55:24.735Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36" version="21.0.2" etag="zbepy9_80UDUWasCA6ip" type="github"><diagram name="Seite-1" id="FyOhRTK1BdV0u3ZvjF9s">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2023-03-07T08:12:12.780Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36" etag="VZlY4otgcENOLSgV7BAW" version="21.0.2" type="github">
+  <diagram name="Seite-1" id="FyOhRTK1BdV0u3ZvjF9s">
+    <mxGraphModel dx="840" dy="535" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tGeaBFH5dI9t1Blz8AbT-2" value="&lt;b&gt;Matthias Eisl&lt;/b&gt;&lt;br&gt;Geoinformations-&lt;br&gt;beauftragter" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="160" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tGeaBFH5dI9t1Blz8AbT-3" value="&lt;b&gt;Alexander Lux&lt;br&gt;&lt;/b&gt;Datenbank und Backend Development" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="160" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tGeaBFH5dI9t1Blz8AbT-4" value="&lt;b&gt;Simon Furtmüller&lt;br&gt;&lt;/b&gt;(Projektleiter)&lt;br&gt;Frontend Development und Mobile Solutions" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="160" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tGeaBFH5dI9t1Blz8AbT-5" value="&lt;b&gt;Projektbetreuer&lt;/b&gt;&lt;br&gt;Prof. Dipl.-Ing.(FH) Markus Falkensteiner,&lt;br&gt;&amp;nbsp;DI (FH) Mag Christine Rainer" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="145" y="60" width="230" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tGeaBFH5dI9t1Blz8AbT-8" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="tGeaBFH5dI9t1Blz8AbT-2" target="tGeaBFH5dI9t1Blz8AbT-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="130" y="320" as="sourcePoint" />
+            <mxPoint x="180" y="270" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="100" y="140" />
+              <mxPoint x="260" y="140" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tGeaBFH5dI9t1Blz8AbT-9" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="tGeaBFH5dI9t1Blz8AbT-3" target="tGeaBFH5dI9t1Blz8AbT-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="280" y="160" as="sourcePoint" />
+            <mxPoint x="440" y="100" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="425" y="140" />
+              <mxPoint x="260" y="140" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tGeaBFH5dI9t1Blz8AbT-10" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="tGeaBFH5dI9t1Blz8AbT-4" target="tGeaBFH5dI9t1Blz8AbT-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="360" y="190" as="sourcePoint" />
+            <mxPoint x="410" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tGeaBFH5dI9t1Blz8AbT-11" value="&lt;b&gt;Kooperationspartner&lt;/b&gt;&lt;br&gt;Verein Erz der Alpen,&lt;br&gt;&amp;nbsp;Tourismusverband Bischofshofen" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="187.5" y="260" width="145" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tGeaBFH5dI9t1Blz8AbT-12" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="tGeaBFH5dI9t1Blz8AbT-11" target="tGeaBFH5dI9t1Blz8AbT-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="60" y="340" as="sourcePoint" />
+            <mxPoint x="110" y="290" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="260" y="240" />
+              <mxPoint x="100" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tGeaBFH5dI9t1Blz8AbT-13" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="tGeaBFH5dI9t1Blz8AbT-11" target="tGeaBFH5dI9t1Blz8AbT-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="210" y="290" as="sourcePoint" />
+            <mxPoint x="260" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tGeaBFH5dI9t1Blz8AbT-14" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="tGeaBFH5dI9t1Blz8AbT-3" target="tGeaBFH5dI9t1Blz8AbT-11">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="310" as="sourcePoint" />
+            <mxPoint x="540" y="260" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="425" y="240" />
+              <mxPoint x="260" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
