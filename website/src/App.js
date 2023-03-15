@@ -23,7 +23,7 @@ import "./App.css";
 import "./index.css";
 
 const App = () => (
-  <div>
+  <div >
     <Navbar />
     <AuthProvider>
       <Routes>
