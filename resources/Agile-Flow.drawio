@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-03-17T10:31:17.774Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="aMU_KlBb8CePgaWns5eW" version="21.0.6" type="github">
+<mxfile host="app.diagrams.net" modified="2023-03-17T10:36:15.911Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="mNJMJ0Cs6kBps5vHd_h8" version="21.0.6" type="github">
   <diagram name="Seite-1" id="60iAo9Uzv3837oWp7tHv">
     <mxGraphModel dx="1440" dy="917" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -236,12 +236,8 @@
             <Array as="points" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="u61SkctuEBbx3bLfDy3J-66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="u61SkctuEBbx3bLfDy3J-67" target="u61SkctuEBbx3bLfDy3J-71">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="1330" y="1100" />
-            </Array>
-          </mxGeometry>
+        <mxCell id="u61SkctuEBbx3bLfDy3J-115" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="u61SkctuEBbx3bLfDy3J-67" target="u61SkctuEBbx3bLfDy3J-71">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="u61SkctuEBbx3bLfDy3J-67" value="Sprint Review" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#99CCFF;" vertex="1" parent="1">
           <mxGeometry x="1101" y="1075" width="140" height="50" as="geometry" />
