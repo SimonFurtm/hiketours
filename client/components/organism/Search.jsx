@@ -9,8 +9,8 @@ import {
   Modal
 } from "react-native";
 import { View } from "../atoms/Themed";
-import List from "../atoms/RoutenList";
-import SearchBar from "../atoms/SearchBar";
+import List from "../molecules/RoutenList";
+import SearchBar from "../molecules/SearchBar";
 
 const InfoScreen = (visible, setVisible) => {
 
@@ -56,7 +56,7 @@ const Search = () => {
 
   return (
     <SafeAreaView style={styles.root}>
-      <SearchBar
+      <SearchBar //!
         searchPhrase={searchPhrase}
         setSearchPhrase={setSearchPhrase}
         clicked={clicked}
@@ -64,12 +64,13 @@ const Search = () => {
       />
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />    
       
-        <List
-          searchPhrase={searchPhrase}
-          data={data}
-          setClicked={setClicked}
-          setVisible={setVisible}
-        />
+      <List //!
+        searchPhrase={searchPhrase}
+        data={data}
+        setClicked={setClicked}
+        setVisible={setVisible}
+      />
+
     </SafeAreaView>
   );
 };

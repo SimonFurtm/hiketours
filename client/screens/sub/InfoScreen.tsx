@@ -4,12 +4,14 @@ import EditScreenInfo from '../../components/organism/EditScreenInfo';
 import { Text, View } from '../../components/atoms/Themed';
 import { RootTabScreenProps } from '../../types';
 import React from 'react';
+import Info from '../../components/organism/info';
 
 export default function InfoScreen({ navigation }: RootTabScreenProps<'Info'>) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Informationen</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <Info />
     </View>
   );
 }

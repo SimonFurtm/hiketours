@@ -26,8 +26,7 @@ import LinkingConfiguration from './LinkingConfiguration';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
-    <NavigationContainer
-      
+    <NavigationContainer //Maybe stylesheet fix?
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <RootNavigator />
@@ -63,7 +62,6 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
@@ -72,14 +70,6 @@ function BottomTabNavigator() {
         tabBarActiveBackgroundColor: Colors[colorScheme].secondaryDark,
         tabBarInactiveBackgroundColor: Colors[colorScheme].secondaryDark,
       }}>
-      {/*<BottomTab.Screen
-        name="Info"
-        component={InfoScreen}
-        options={{
-          title: 'Infos',
-          tabBarIcon: ({ color }) => <TabBarIcon name="info-circle" color={color} />,
-        }}
-      />*/}
       <BottomTab.Screen
         name="Routes"
         component={RoutesScreen}
@@ -112,15 +102,6 @@ function BottomTabNavigator() {
           ),
         })}
       />
-      {/*
-      <BottomTab.Screen
-        name="Search"
-        component={SearchScreen}
-        options={{
-          title: 'Search',
-          tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
-        }}
-      />*/}
       <BottomTab.Screen
         name="Profile"
         component={ProfileScreen}

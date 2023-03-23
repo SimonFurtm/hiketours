@@ -25,6 +25,8 @@ export default function Login() {
   
   return (
     <View>
+      <Text style={styles.title}>Profil</Text>
+      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <EmailLogin />
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
