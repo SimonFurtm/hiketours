@@ -8,7 +8,7 @@ import { Text, View } from '../atoms/Themed';
 import AppleLogin from '../molecules/appleLogin';
 import GoogleLogin from '../molecules/googleLogin';
 import { useContext, createContext, useState } from 'react';
-import EmailLogin from '../molecules/emailLogim';
+import EmailLogin from '../molecules/emailLogin';
 
 const API_URL = "https://zk2ezn.deta.dev/api";
 const AuthContext = createContext({});
@@ -22,12 +22,22 @@ const AuthProvider = ({ children }) => {
 };
 
 export default function Login() {
-  
+  const [loggedIn, setLoggedIn] = useState(false);
+
   return (
     <View>
       <Text style={styles.title}>Profil</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EmailLogin />
+      
+      {!loggedIn && (
+        <EmailLogin 
+          logedIn = {logedIn}
+          setLogedIn = {setLogedIn}
+        />
+      )}
+      {loggedIn && (
+        <Text style={styles.buttonText}>Hier ist Platz für dein Profil.</Text>
+      )}
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
         {/*<GoogleLogin 

@@ -18,11 +18,10 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-export default function EmailLogin() {
+export default function EmailLogin({logedIn, setLogedIn}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const {user, setUser } = useContext(AuthContext);
-  const [logedIn, setLogedIn] = useState(false);
 
   const toggleLogin = () => {
     setLogedIn(!logedIn);
