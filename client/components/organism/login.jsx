@@ -26,24 +26,25 @@ export default function Login() {
 
   return (
     <View>
-      <Text style={styles.title}>Profil</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      
       {!loggedIn && (
-        <EmailLogin 
-          logedIn = {logedIn}
-          setLogedIn = {setLogedIn}
-        />
+        <View>
+          <Text style={styles.title}>Profil</Text>
+          <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+          <EmailLogin 
+            loggedIn = {loggedIn}
+            setLoggedIn = {setLoggedIn}
+            user = {user}
+            setUser = {setUser}
+          />
+        </View>
       )}
       {loggedIn && (
-        <Text style={styles.buttonText}>Hier ist Platz für dein Profil.</Text>
+        <View>
+          <Text style={styles.title}>{user.username}.</Text>
+          <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+          <Text style={styles.buttonText}>Hier ist Platz für dein Profil.</Text>
+        </View>  
       )}
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-
-        {/*<GoogleLogin 
-          logedIn = {logedIn}
-          setLogedIn = {setLogedIn}
-        />*/}
     </View>
   );
 }

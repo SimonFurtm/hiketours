@@ -26,7 +26,7 @@ const List = ({ searchPhrase, setClicked, data, setVisible }) => {
     // filter by name
     if (listItem.name.toUpperCase().includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))) {
       return (
-        <TouchableOpacity style={styles.card} onPress={() => console.log(listItem.name)}>
+        <TouchableOpacity style={styles.card} onPress={() => setVisible(true) & console.log(listItem.name)}>
           <Text style={styles.listTitle}>{listItem.name}</Text>
           <Text style={styles.list}>{listItem.info}</Text>
         </TouchableOpacity>
@@ -35,7 +35,7 @@ const List = ({ searchPhrase, setClicked, data, setVisible }) => {
     // filter by info
     if (listItem.info.toUpperCase().includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))) {
       return (
-        <TouchableOpacity style={styles.card} onPress={() => console.log(listItem.name)}>
+        <TouchableOpacity style={styles.card} onPress={() => setVisible(true) & console.log(listItem.name)}>
           <Text style={styles.listTitle}>{listItem.name}</Text>
           <Text style={styles.list}>{listItem.info}</Text>
         </TouchableOpacity>

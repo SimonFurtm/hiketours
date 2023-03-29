@@ -8,23 +8,13 @@ import { Text, View } from '../atoms/Themed';
 import { useContext, createContext, useState } from 'react';
 
 const API_URL = "https://zk2ezn.deta.dev/api";
-const AuthContext = createContext({});
-const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({});
-  return (
-    <AuthContext.Provider value={{ user, setUser }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
 
-export default function EmailLogin({logedIn, setLogedIn}) {
+export default function EmailLogin({loggedIn, setLoggedIn, user, setUser}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const {user, setUser } = useContext(AuthContext);
 
   const toggleLogin = () => {
-    setLogedIn(!logedIn);
+    setLoggedIn(!loggedIn);
   };
 
   const handleLogin = async (e) => {
@@ -57,6 +47,7 @@ export default function EmailLogin({logedIn, setLogedIn}) {
         password,
       })
       .then((res) => {
+        setUser({ username: username});
         console.log(res);
       })
       .catch((err) => {
@@ -67,7 +58,7 @@ export default function EmailLogin({logedIn, setLogedIn}) {
   return (
     <View>
       {}
-      <Text style={styles.title}>{logedIn ? 'Login' : 'Register'}</Text>
+      <Text style={styles.title}>{loggedIn ? 'Login' : 'Register'}</Text>
       <TextInput
         style={styles.input}
         placeholder="Username"
@@ -82,14 +73,14 @@ export default function EmailLogin({logedIn, setLogedIn}) {
         secureTextEntry
       />
 
-      <TouchableOpacity style={styles.button} onPress={logedIn ?handleLogin : handleRegister}>
+      <TouchableOpacity style={styles.button} onPress={loggedIn ?handleLogin : handleRegister}>
         <Text style={styles.buttonText}>
-          {logedIn ? 'Login' : 'Create Account'}
+          {loggedIn ? 'Login' : 'Create Account'}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={toggleLogin}>
         <Text style={styles.link}>
-          {logedIn ? 'Create an account' : 'Already have an account?'}
+          {loggedIn ? 'Create an account' : 'Already have an account?'}
         </Text>
       </TouchableOpacity>
 
