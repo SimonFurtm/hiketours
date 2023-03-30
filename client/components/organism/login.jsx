@@ -11,15 +11,6 @@ import { useContext, createContext, useState } from 'react';
 import EmailLogin from '../molecules/emailLogin';
 
 const API_URL = "https://zk2ezn.deta.dev/api";
-const AuthContext = createContext({});
-const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({});
-  return (
-    <AuthContext.Provider value={{ user, setUser }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
 
 export default function Login() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -28,8 +19,6 @@ export default function Login() {
     <View>
       {!loggedIn && (
         <View>
-          <Text style={styles.title}>Profil</Text>
-          <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
           <EmailLogin 
             loggedIn = {loggedIn}
             setLoggedIn = {setLoggedIn}
