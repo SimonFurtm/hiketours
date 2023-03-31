@@ -4,13 +4,13 @@
     "slug": "hike-tours",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/favicon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ecedef"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -30,9 +30,10 @@
     },
     "android": {
       "package": "at.hiketours.client",
+      "icon": "./assets/images/favicon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ecedef"
       },
       "permissions": [
         "ACCESS_FINE_LOCATION",
