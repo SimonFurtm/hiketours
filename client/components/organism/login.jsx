@@ -22,14 +22,13 @@ export default function Login() {
           <EmailLogin 
             loggedIn = {loggedIn}
             setLoggedIn = {setLoggedIn}
-            user = {user}
-            setUser = {setUser}
+
           />
         </View>
       )}
       {loggedIn && (
         <View>
-          <Text style={styles.title}>{user.username}.</Text>
+          <Text style={styles.title}>Profil</Text>
           <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
           <Text style={styles.buttonText}>Hier ist Platz für dein Profil.</Text>
         </View>  
